@@ -1,0 +1,75 @@
+server:
+  port: 9100
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway GlobalFilter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: auth-api
+          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+          predicates:
+            - Path=/auth/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+        - id: auth-api
+          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+          predicates:
+            - Path=/auth/**
+          filters:
+            - AddRequestHeader=auth-api-request, auth-api-request-header
+            - AddResponseHeader=auth-api-response, auth-api-response-header
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+        - id: system-api
+          uri: lb://SYSTEM-API
+          predicates:
+            - Path=/cmm/**
+          filters:
+            - CustomFilter
+            - RewritePath=/cmm/(?<segment>.*), /$\{segment}
+        - id: product-api
+          uri: lb://PRODUCT-API
+          predicates:
+            - Path=/prd/**
+        - id: backoffice
+          uri: lb://BACKOFFICE
+          predicates:
+            - Path=/**
+          filters:
+#            - RewritePath=/(?<segment>.*), /$\{segment}
+
+eureka:
+  client:
+    register-with-eureka: true        # eureka 서비스 등록 여부
+    fetch-registry: true              # 
+#    registry-fetch-interval-seconds: 15  # eureka에게 서비스 정보를 가져오는 주기
+    disable-delta: true               # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비)
+    service-url:
+      defaultZone: http://admin:admin123@localhost:9000/eureka/
+
+## actuator
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "gateway" # http://localhost:9000/actuator/gateway/routes
+#  endpoint:
+#    gateway:
+#      enabled: true
+#    health:
+#      show-details: always  # actuator에서 상세한 정보들을 확인하기 위해 설정
