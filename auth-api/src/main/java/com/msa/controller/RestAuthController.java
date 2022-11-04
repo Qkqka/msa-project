@@ -57,9 +57,9 @@ public class RestAuthController {
 
         log.info("RestAuthController.login: {}", managerInfo);
         session.setAttribute("userId", UUID.randomUUID().toString());
-        session.setMaxInactiveInterval(60*5); // 5분
+        session.setMaxInactiveInterval(60*5*1000); // 5분
 
-//        return response.success(tokenInfo, "로그인에 성공했습니다.", HttpStatus.OK);
+//        return response.success(tokenInfo, "로그인에 성공했습니다.", Ht tpStatus.OK);
         return null;
     }
 
