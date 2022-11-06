@@ -1,9 +1,14 @@
 package com.msa.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
+
+@Slf4j
 @RestController
 public class RestHomeController {
 
@@ -13,9 +18,12 @@ public class RestHomeController {
     }
 
     @GetMapping("/")
-    public ModelAndView home() {
+    public ModelAndView home(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("index");
+
+        log.info("session.id", session.getId());
+        log.info("session.authInfo", session.getAttribute("authInfo"));
         return mv;
     }
 

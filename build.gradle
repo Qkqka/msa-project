@@ -140,12 +140,15 @@ configure(allProjects()) {
 configure(apiProjects()) {
     dependencies {
         implementation project(':core')
+        implementation project(':common')
+        // openfeign
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     }
 }
 
 configure(officeProjects()) {
     dependencies {
+        implementation project(':core')
         implementation project(':common')
         // thymeleaf
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

@@ -1,6 +1,7 @@
 package com.msa.service;
 
 import com.msa.client.CommonCodeFeignClient;
+import com.msa.domain.AuthInfo;
 import com.msa.domain.Manager;
 import com.msa.domain.ManagerLogin;
 import org.apache.commons.codec.binary.StringUtils;
@@ -41,9 +42,9 @@ public class AuthService {
         return users.get(0);
     }
 
-    public Manager login(ManagerLogin loginInfo) {
-        List<Manager> userInfo = this.getUserList().stream().filter(user -> StringUtils.equals(user.getId(), loginInfo.getId())).collect(Collectors.toList());
-        if (CollectionUtils.isEmpty(userInfo)){
+    public AuthInfo login(ManagerLogin loginInfo) {
+        List<Manager> userList = this.getUserList().stream().filter(user -> StringUtils.equals(user.getId(), loginInfo.getId())).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(userList)){
             throw new IllegalArgumentException("로그인 정보를 다시 확인해주세요.");
         }
 
@@ -51,7 +52,14 @@ public class AuthService {
             throw new IllegalArgumentException("로그인 정보를 다시 확인해주세요.");
         }
 
-        return userInfo.get(0);
+        Manager user = userList.get(0);
+
+        return AuthInfo.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .groupCode(user.getGroupCode())
+                .build();
     }
 
 }
