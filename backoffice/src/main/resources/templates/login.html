@@ -8,20 +8,21 @@
   </head>
   <body>
     <div>
-      <input type="text" id="id" placeholder="id" /><input
+      <input type="text" id="id" placeholder="id" />
+      <input
         type="password"
         id="password"
         placeholder="password"
       />
-      <button id="login" onclick="login()">로그인</button>
+      <button onclick="login()">로그인</button>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
       function login() {
         axios
           .post("/auth/login/", {
-            id: document.getElementById("id"),
-            password: document.getElementById("password"),
+            id: document.getElementById("id").value,
+            password: document.getElementById("password").value,
           })
           .then((res) => {
             console.log(res);

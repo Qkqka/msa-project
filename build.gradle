@@ -140,6 +140,7 @@ configure(allProjects()) {
 configure(apiProjects()) {
     dependencies {
         implementation project(':core')
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     }
 }
 

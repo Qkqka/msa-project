@@ -19,16 +19,26 @@ spring:
             - Path=/auth/login
             - Method=POST
           filters:
-            - RemoveRequestHeader=Cookie
+#            - RemoveRequestHeader=Cookie
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+        - id: auth-api
+          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+          predicates:
+            - Path=/auth/logout
+            - Method=POST
+          filters:
+#            - RemoveRequestHeader=Cookie
             - RewritePath=/auth/(?<segment>.*), /$\{segment}
         - id: auth-api
           uri: lb://AUTH-API # eureka에 등록된 서비스 이름
           predicates:
             - Path=/auth/**
+            - Method=GET
           filters:
             - AddRequestHeader=auth-api-request, auth-api-request-header
             - AddResponseHeader=auth-api-response, auth-api-response-header
             - name: CustomFilter
+#            - name: AuthorizationHeaderFilter
             - name: LoggingFilter
               args:
                 baseMessage: Hi, there.
@@ -46,6 +56,9 @@ spring:
           uri: lb://PRODUCT-API
           predicates:
             - Path=/prd/**
+          filters:
+            - CustomFilter
+            - RewritePath=/prd/(?<segment>.*), /$\{segment}
         - id: backoffice
           uri: lb://BACKOFFICE
           predicates:

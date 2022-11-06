@@ -1,4 +1,4 @@
-package com.msa.config;
+package com.msa.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
