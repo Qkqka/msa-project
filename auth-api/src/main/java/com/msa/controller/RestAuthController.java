@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
@@ -39,7 +41,9 @@ public class RestAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(HttpSession session, @RequestBody ManagerLogin loginInfo) {
+    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody ManagerLogin loginInfo) {
+        // getSession(true) 를 사용하면 처음 들어온 사용자도 세션이 만들어지기 때문에 false로 받음
+        HttpSession session = request.getSession(false);
         log.info("session.authInfo: {}", session.getAttribute("authInfo"));
         log.info("RestAuthController.login: {}", loginInfo);
         AuthInfo authInfo = authService.login(loginInfo);
@@ -53,12 +57,16 @@ public class RestAuthController {
 
         log.info("session.authInfo: {}", session.getAttribute("authInfo"));
         log.info("session.authInfo: {}", session.getMaxInactiveInterval());
+
+        //쿠키에 시간 정보를 주지 않으면 세션 쿠기(브라우저 종료시 모두 종료)
+        Cookie cookie = new Cookie("mySessionId", session.getId());
+        response.addCookie(cookie);
         return ResponseEntity.status(HttpStatus.OK).body(authInfo);
     }
 
     @PostMapping("/logout")
     public String logout(HttpSession session) {
-
+        log.info("session.authInfo: {}", session.getAttribute("authInfo"));
         session.invalidate();
         return "logout";
     }

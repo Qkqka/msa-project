@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="managerList"></div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function getManagerList() {
+        axios.get("/cmm/manager/list").then((res) => {
+            console.log(res);
+            document.getElementById("managerList").innerText = res.data;
+        });
+    }
+</script>
+</body>
+</html>

@@ -33,4 +33,11 @@ public class RestHomeController {
         mv.setViewName("login");
         return mv;
     }
+
+    @GetMapping("/managerList")
+    public ModelAndView managerList() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("managerList");
+        return mv;
+    }
 }
