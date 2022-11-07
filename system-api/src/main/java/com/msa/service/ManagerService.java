@@ -1,10 +1,11 @@
 package com.msa.service;
 
-import com.msa.domain.Manager;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.msa.domain.Manager;
 
 @Service
 public class ManagerService {
@@ -20,7 +21,16 @@ public class ManagerService {
         list.add(Manager.builder().id("admin7").name("관리자7").email("manager7@test.com").groupCode("5").build());
         list.add(Manager.builder().id("admin8").name("관리자8").email("manager8@test.com").groupCode("5").build());
         list.add(Manager.builder().id("admin9").name("관리자9").email("manager9@test.com").groupCode("6").build());
-        list.add(Manager.builder().id("admin10").name("관리자10").email("manager1@test.com").groupCode("7").build());
+        list.add(Manager.builder().id("admin10").name("관리자10").email("manager10@test.com").groupCode("7").build());
         return list;
     }
+
+//    public Manager getUser(String userId) {
+//        List<Manager> users = this.getUserList().stream().filter(user -> StringUtils.equals(userId, user.getId())).collect(Collectors.toList());
+//        if (CollectionUtils.isEmpty(users)) {
+//            return null;
+//        }
+//
+//        return users.get(0);
+//    }
 }

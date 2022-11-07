@@ -12,8 +12,8 @@ spring:
 #    flush-mode: on_save # 호출될 떄만 redis에 기록
 #    namespace: spring:session # key값에 대한 prefix
   thymeleaf:
-    prefix: classpath:templates/
-    suffix: .html
+#    prefix: classpath:templates/
+#    suffix: .html
     cache: false # thymeleaf에 대한 캐시를 남기지 않는다. (운영시에는 true)
     check-template-location: true # thymeleaf 디렉토리에 파일이 있는지 없는지 체크, 없으면 에러를 발생시킨다.
 
@@ -27,3 +27,7 @@ eureka:
     disable-delta: true               # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비)
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
+
+logging:
+  level:
+    com.msa: TRACE

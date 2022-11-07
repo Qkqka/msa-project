@@ -63,6 +63,7 @@ spring:
           uri: lb://BACKOFFICE
           predicates:
             - Path=/**
+            - Host=
           filters:
 #            - RewritePath=/(?<segment>.*), /$\{segment}
 

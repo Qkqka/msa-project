@@ -5,15 +5,21 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <h1 th:text="${session.loginUser}"></h1>
+</div>
 <div id="managerList"></div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     function getManagerList() {
         axios.get("/cmm/manager/list").then((res) => {
             console.log(res);
-            document.getElementById("managerList").innerText = res.data;
+            res.data.forEach(mng => {
+                document.getElementById("managerList").innerText += mng.id + "\t" + mng.name + "\t" + mng.email + "\t" + mng.groupCode + "\n";
+            });
         });
     }
+    getManagerList();
 </script>
 </body>
 </html>

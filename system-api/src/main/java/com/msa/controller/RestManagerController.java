@@ -1,17 +1,20 @@
 package com.msa.controller;
 
-import com.msa.domain.Manager;
-import com.msa.service.ManagerService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import com.msa.domain.Manager;
+import com.msa.service.ManagerService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -31,4 +34,11 @@ public class RestManagerController {
         List<Manager> list = this.managerService.selectManagerList();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<Manager> getUser(@PathVariable("userId") String userId) {
+//        log.info("RestAuthController.getUser: {}", userId);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(authService.getUser(userId));
+//    }
 }

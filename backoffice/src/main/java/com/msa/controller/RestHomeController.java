@@ -17,27 +17,27 @@ public class RestHomeController {
         return "hello, backoffice";
     }
 
-    @GetMapping("/")
-    public ModelAndView home(HttpSession session) {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
-
-        log.info("session.id", session.getId());
-        log.info("session.authInfo", session.getAttribute("authInfo"));
-        return mv;
-    }
-
-    @GetMapping("/login")
-    public ModelAndView login() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("login");
-        return mv;
-    }
-
-    @GetMapping("/managerList")
-    public ModelAndView managerList() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("managerList");
-        return mv;
-    }
+//    @GetMapping("/")
+//    public ModelAndView home(HttpSession session) {
+//        ModelAndView mv = new ModelAndView();
+//        mv.setViewName("index");
+//
+//        log.info("session.id", session.getId());
+//        log.info("session.authInfo", session.getAttribute("authInfo"));
+//        return mv;
+//    }
+//
+//    @GetMapping("/login")
+//    public ModelAndView login() {
+//        ModelAndView mv = new ModelAndView();
+//        mv.setViewName("login");
+//        return mv;
+//    }
+//
+//    @GetMapping("/managerList")
+//    public ModelAndView managerList() {
+//        ModelAndView mv = new ModelAndView();
+//        mv.setViewName("managerList");
+//        return mv;
+//    }
 }
