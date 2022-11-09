@@ -45,9 +45,6 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
-        // devtools
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
         // spring boot starter
         implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -66,12 +63,20 @@ subprojects {
 
 // 하위 프로젝트 별 세팅
 project(':common') {
-    bootJar { enabled = false } // common 은 bootJar 로 패키징 할 필요 없음
+    bootJar { enabled = false } // common, core 은 bootJar 로 패키징 할 필요 없음
     jar { enabled = true }
-}
 
+    dependencies {
+        // db 접속정보 암호화
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+        // mybatis
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+        // mysql
+        runtimeOnly 'com.mysql:mysql-connector-j'
+    }
+}
 project(':core') {
-    bootJar { enabled = false } // core 은 bootJar 로 패키징 할 필요 없음
+    bootJar { enabled = false } // common, core 은 bootJar 로 패키징 할 필요 없음
     jar { enabled = true }
 }
 
@@ -107,25 +112,12 @@ def allProjects() {
         (it.name != 'eureka-server' && it.name != 'api-gateway')
     }
 }
-def officeProjects() {
-    return subprojects.findAll{
-        it.name.endsWith('office')
-    }
-}
-def apiProjects() {
-    return subprojects.findAll{
-        it.name.endsWith('-api')
-    }
-}
 //println subprojects.name
 //println officeProjects()
 //println apiProjects()
 //println allProjects();
 
 configure(allProjects()) {
-    bootJar { enabled = true }
-    jar { enabled = true }
-
     dependencies {
         // eureka client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
@@ -137,25 +129,31 @@ configure(allProjects()) {
     }
 }
 
-configure(apiProjects()) {
+configure(subprojects.findAll{ it.name.endsWith('-api') }) {
+    bootJar { enabled = true }
+    jar { enabled = true }
+
     dependencies {
         implementation project(':core')
         implementation project(':common')
+
+        // devtools
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
         // openfeign
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     }
 }
 
-configure(officeProjects()) {
+configure(subprojects.findAll{ it.name.endsWith('office') }) {
+    bootJar { enabled = true }
+    jar { enabled = true }
+
     dependencies {
         implementation project(':core')
         implementation project(':common')
+
         // thymeleaf
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    }
-}
-
-project(':auth-api') {
-    dependencies {
     }
 }

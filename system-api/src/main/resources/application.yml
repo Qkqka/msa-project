@@ -9,8 +9,19 @@ spring:
   redis:
     host: localhost
     port: 6379
-#    flush-mode: on_save # 호출될 떄만 redis에 기록
-#    namespace: spring:session # key값에 대한 prefix
+  datasource:
+    firstDataSource:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 설정
+        url: ENC(gUMIH4PuYlbGzsOu4kY4j3gjMtW3b8ztTz4sgXvqCq2/fYh5OLQDqL+UyMASnV/sB8yk4HtpobEDyb1gB4M6jIK3L7v7TLAFsniPZwgFTW3R37a2yS4aTzkF/SEgpZq+nWYR9g43cGs=) # DB Source URL
+        username: ENC(ADWEeKTTBrsTlTVtpH0O/w==)           # DB username
+        password: ENC(VEnvoPsejgnDMlEIew2N7biHYqjQiiPa)   # DB password
+    secondDataSource:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 설정
+        url: ENC(gUMIH4PuYlbGzsOu4kY4j3gjMtW3b8ztTz4sgXvqCq2/fYh5OLQDqL+UyMASnV/sB8yk4HtpobEDyb1gB4M6jIK3L7v7TLAFsniPZwgFTW3R37a2yS4aTzkF/SEgpZq+nWYR9g43cGs=) # DB Source URL
+        username: ENC(ADWEeKTTBrsTlTVtpH0O/w==)           # DB username
+        password: ENC(VEnvoPsejgnDMlEIew2N7biHYqjQiiPa)   # DB password
 
 eureka:
   instance:
@@ -22,3 +33,10 @@ eureka:
     disable-delta: true               # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비)
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
+
+#jasypt:
+#  encryptor:
+##    bean: jasyptStringEncryptor
+#    algorithm: PBEWithMD5AndDES
+#    iv-generator-classname: org.jasypt.iv.NoIvGenerator # PBEWithMD5AndDES 사용시 필수 속성
+
