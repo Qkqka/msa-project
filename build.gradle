@@ -69,10 +69,15 @@ project(':common') {
     dependencies {
         // db 접속정보 암호화
         implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+        // 
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
         // mybatis
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
         // mysql
         runtimeOnly 'com.mysql:mysql-connector-j'
+
+        // aop
+        implementation("org.springframework.boot:spring-boot-starter-aop")
     }
 }
 project(':core') {
@@ -108,13 +113,12 @@ project(':api-gateway') {
 
 def allProjects() {
     return subprojects.findAll{
-        /*(it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'common' && it.name != 'core')*/
-        (it.name != 'eureka-server' && it.name != 'api-gateway')
+        /*(it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt' && it.name != 'common' && it.name != 'core')*/
+        (it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt' && it.name != 'core')
+        /*(it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt')*/
     }
 }
-//println subprojects.name
-//println officeProjects()
-//println apiProjects()
+//println subprojects.name // api-gateway, auth-api, backoffice, backoffice-nuxt, common, core, eureka-server, product-api, system-api
 //println allProjects();
 
 configure(allProjects()) {

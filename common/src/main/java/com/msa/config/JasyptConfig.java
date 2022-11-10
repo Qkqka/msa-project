@@ -19,6 +19,7 @@ public class JasyptConfig {
 
     @Bean(name = "jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
+
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword(key); // 암호화할 때 사용하는 키 --> VM Option에 설정
         config.setAlgorithm("PBEWithMD5AndDES"); // 암호화 알고리즘 - default PBEWITHHMACSHA512ANDAES_256
