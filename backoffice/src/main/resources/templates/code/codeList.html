@@ -7,8 +7,15 @@
     <title>Document</title>
   </head>
   <body>
-    <div>
-      <h1>안녕하세여어어어어어어어</h1>
-    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      function getCodeList() {
+        axios
+          .get("/sys/code/list")
+          .then((res) => {
+            console.log(res);
+          });
+      }
+    </script>
   </body>
 </html>

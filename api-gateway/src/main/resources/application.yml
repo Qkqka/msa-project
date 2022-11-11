@@ -3,7 +3,9 @@ server:
 
 spring:
   application:
-    name: gateway-service
+    name: api-gateway
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
       default-filters:
@@ -13,21 +15,26 @@ spring:
             preLogger: true
             postLogger: true
       routes:
-        - id: auth-api
+        - id: auth-api-login
           uri: lb://AUTH-API # eureka에 등록된 서비스 이름
           predicates:
             - Path=/auth/login
             - Method=POST
           filters:
-#            - RemoveRequestHeader=Cookie
             - RewritePath=/auth/(?<segment>.*), /$\{segment}
-        - id: auth-api
+        - id: auth-api-logout
           uri: lb://AUTH-API # eureka에 등록된 서비스 이름
           predicates:
             - Path=/auth/logout
             - Method=POST
           filters:
-#            - RemoveRequestHeader=Cookie
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+        - id: auth-api-check
+          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+          predicates:
+            - Path=/auth/auth_check
+            - Method=GET
+          filters:
             - RewritePath=/auth/(?<segment>.*), /$\{segment}
         - id: auth-api
           uri: lb://AUTH-API # eureka에 등록된 서비스 이름
@@ -38,7 +45,7 @@ spring:
             - AddRequestHeader=auth-api-request, auth-api-request-header
             - AddResponseHeader=auth-api-response, auth-api-response-header
             - name: CustomFilter
-#            - name: AuthorizationHeaderFilter
+            - name: BackofficeAuthFilter
             - name: LoggingFilter
               args:
                 baseMessage: Hi, there.
@@ -48,24 +55,31 @@ spring:
         - id: system-api
           uri: lb://SYSTEM-API
           predicates:
-            - Path=/cmm/**
+            - Path=/sys/**
           filters:
             - CustomFilter
-            - RewritePath=/cmm/(?<segment>.*), /$\{segment}
+            - BackofficeAuthFilter
+            - RewritePath=/sys/(?<segment>.*), /$\{segment}
         - id: product-api
           uri: lb://PRODUCT-API
           predicates:
             - Path=/prd/**
           filters:
             - CustomFilter
+            - BackofficeAuthFilter
             - RewritePath=/prd/(?<segment>.*), /$\{segment}
         - id: backoffice
           uri: lb://BACKOFFICE
           predicates:
             - Path=/**
-#            - Host=
-          filters:
+            - Host=back-office.com*
+#          filters:
 #            - RewritePath=/(?<segment>.*), /$\{segment}
+        - id: backoffice-nuxt
+          uri: http://localhost:3000
+          predicates:
+            - Path=/**
+            - Host=back-office-nuxt.com*
 
 eureka:
   client:
@@ -75,6 +89,10 @@ eureka:
     disable-delta: true               # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비)
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
+
+logging:
+  level:
+    com.msa: DEBUG
 
 ## actuator
 #management:

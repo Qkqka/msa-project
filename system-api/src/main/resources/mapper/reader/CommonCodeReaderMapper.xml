@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.msa.mapper.reader.CommonCodeReaderMapper">
+
+    <!--
+      기능: 공통코드 목록 조회
+      작성자: fnfnksb@gmail.com
+      작성일: 2022.11.11
+     -->
+    <select id="selectCodeList" resultType="CommonCodeEntity">
+        /* CommonCodeReaderMapper.selectCodeList */
+        SELECT 
+            c.CODE_GRP,
+            c.CODE,
+            c.CODE_NM,
+            c.CODE_VAL1,
+            c.CODE_VAL2,
+            c.CODE_VAL3,
+            c.CODE_VAL4,
+            c.CODE_VAL5,
+            c.USE_YN,
+            c.DISP_NO,
+            c.REG_DT,
+            c.MOD_DT,
+            c.REG_SEQ,
+            c.MOD_SEQ
+        FROM `system`.code c
+    </select>
+
+</mapper>

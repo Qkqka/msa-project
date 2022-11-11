@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
 
@@ -24,6 +27,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         } else {
             // 로그인 성공 후 다시 원래의 목적지로 갈 수 있게 prev 정보 저장
 //            response.sendRedirect(request.getContextPath() + "login?prev=" + request.getServletPath());
+            log.debug("request.getServletPath: {}", request.getServletPath());
             response.sendRedirect("localhost:9100/login?prev=" + request.getServletPath());
             return false;
         }

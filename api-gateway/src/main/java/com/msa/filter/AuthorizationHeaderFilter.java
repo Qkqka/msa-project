@@ -39,7 +39,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         });
     }
 
-    // Mono, Fluc -> Spring WebFlux
+    // Mono, Flux -> Spring WebFlux
     private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);

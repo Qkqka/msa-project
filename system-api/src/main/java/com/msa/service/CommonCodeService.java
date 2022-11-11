@@ -1,12 +1,12 @@
 package com.msa.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.msa.model.CommonCode;
 
-@Service
-public class CommonCodeService {
-    public CommonCode selectCode(String codeId) {
-        return CommonCode.builder().codeId(codeId).codeName("type1").build();
-    }
+public interface CommonCodeService {
+
+    CommonCode selectCode(String codeId);
+
+    List<CommonCode> selectCodeList();
 }

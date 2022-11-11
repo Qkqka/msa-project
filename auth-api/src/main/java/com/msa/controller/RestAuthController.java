@@ -9,6 +9,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,8 +60,8 @@ public class RestAuthController {
      * @param loginInfo
      * @return
      */
-    @GetMapping("/login")
-    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @Valid ManagerLogin loginInfo) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody ManagerLogin loginInfo) {
 
         // 사용자정보 조회
         AuthInfo userInfo = authService.login(loginInfo);
@@ -82,14 +84,32 @@ public class RestAuthController {
     }
 
     // 로그인 ㅅㅔ션 정보만 만료
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        log.info("session.authInfo: {}", session.getAttribute("authInfo"));
+
+        AuthInfo authInfo = (AuthInfo) session.getAttribute(CommonCode.LOGIN_SESSION);
+        log.info("session.authInfo: {}", authInfo);
+
         if (session.getAttribute("authInfo") == null) {
             return "not login";
         }
-        session.removeAttribute("authInfo");
+
+        session.removeAttribute(CommonCode.LOGIN_SESSION);
         return "logout";
+    }
+
+    @GetMapping("/auth_check")
+    public String authCheck(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        AuthInfo authInfo = (AuthInfo) session.getAttribute(CommonCode.LOGIN_SESSION);
+        log.debug("RestAuthController.authCheck.authInfo : {}", authInfo);
+
+        if (authInfo == null) {
+            return "N";
+        }
+
+        return "Y";
     }
 }

@@ -67,7 +67,7 @@ public class WriterDataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(writerDataSource);
         sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.writer.entity"); // mapper에서 사용할 도메인 패키지
-        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/writer/*Mapper.xml")); // xml 파일 경로
+        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:*mapper/writer/*Mapper.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
         org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();

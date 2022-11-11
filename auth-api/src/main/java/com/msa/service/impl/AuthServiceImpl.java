@@ -21,6 +21,17 @@ public class AuthServiceImpl implements AuthService {
     private final AuthReaderMapper authReaderMapper;
 
     public AuthInfo login(ManagerLogin loginInfo) {
+        if (loginInfo == null) {
+            return null;
+        }
+
+        if (StringUtils.isBlank(loginInfo.getId())) {
+            return null;
+        }
+
+        if (StringUtils.isBlank(loginInfo.getPassword())) {
+            return null;
+        }
 
         AdminEntity adminInfo = this.authReaderMapper.selectManagerPassword(loginInfo.getId());
         log.debug("AuthService.login: {}", adminInfo);

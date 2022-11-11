@@ -19,20 +19,11 @@
     <script>
       // get/post, URL패턴 확인 (EX.비밀번호확인창 등)
       function login() {
-        const form = new FormData();
-        form.append('id', document.getElementById("id").value);
-        form.append('password', document.getElementById("password").value);
-        /* key 확인하기 */
-        for (let key of form.keys()) {
-               console.log(key);
-        }
-        /* value 확인하기 */
-        for (let value of form.values()) {
-              console.log(value);
-        }
-
         axios
-          .get("/auth/login/", form)
+          .post("/auth/login/", {
+              'id' : document.getElementById("id").value,
+              'password' : document.getElementById("password").value
+          })
           .then((res) => {
             console.log(res);
           });

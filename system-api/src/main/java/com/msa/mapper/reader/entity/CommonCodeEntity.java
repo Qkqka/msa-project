@@ -1,11 +1,11 @@
-package com.msa.model;
+package com.msa.mapper.reader.entity;
 
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
-public class CommonCode {
+@Builder
+public class CommonCodeEntity {
     private String codeGrp;
     private String code;
     private String codeNm;
