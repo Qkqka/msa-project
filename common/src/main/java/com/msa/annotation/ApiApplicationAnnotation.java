@@ -1,6 +1,8 @@
 package com.msa.annotation;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient  // eureka client 사용
 @SpringBootApplication
 @Target(ElementType.TYPE) // class, interface, enum에만 적용
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ApiApplicationAnnotation {
 
 }

@@ -1,7 +1,8 @@
 package com.msa.service;
 
-import com.msa.domain.CommonCode;
 import org.springframework.stereotype.Service;
+
+import com.msa.model.CommonCode;
 
 @Service
 public class CommonCodeService {

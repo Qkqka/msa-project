@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.msa.domain.Manager;
+import com.msa.model.Manager;
 import com.msa.service.ManagerService;
 
 import lombok.RequiredArgsConstructor;

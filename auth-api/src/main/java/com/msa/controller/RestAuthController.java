@@ -1,23 +1,22 @@
 package com.msa.controller;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.msa.domain.AuthInfo;
-import com.msa.domain.ManagerLogin;
+import com.msa.model.ManagerLogin;
 import com.msa.service.AuthService;
+import com.msa.util.CommonCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,36 +58,38 @@ public class RestAuthController {
      * @param loginInfo
      * @return
      */
-    @PostMapping("/login")
-    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody ManagerLogin loginInfo) {
-        // getSession(true) 를 사용하면 처음 들어온 사용자도 세션이 만들어지기 때문에 false로 받음
-        HttpSession session = request.getSession();
-        //log.info("session.authInfo: {}", session.getAttribute("authInfo"));
-        //log.info("RestAuthController.login: {}", loginInfo);
-        AuthInfo authInfo = authService.login(loginInfo);
-        if (authInfo == null) {
+    @GetMapping("/login")
+    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @Valid ManagerLogin loginInfo) {
+
+        // 사용자정보 조회
+        AuthInfo userInfo = authService.login(loginInfo);
+        if (userInfo == null) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
 
-        log.info("RestAuthController.login: {}", authInfo);
-        session.setAttribute("authInfo", authInfo);
-        session.setMaxInactiveInterval(60*5*1000); // 5분
+        log.info("RestAuthController.login: {}", userInfo);
 
-        log.info("session.authInfo: {}", session.getAttribute("authInfo"));
+        // 세션 매니저를 통해 세션 생성 및 회원정보 보관
+        // 세션이 있으면 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession();
+        session.setAttribute(CommonCode.LOGIN_SESSION, userInfo);
+        session.setMaxInactiveInterval(60*5); // 5분
+
+        log.info("session.authInfo: {}", session.getAttribute(CommonCode.LOGIN_SESSION));
         log.info("session.authInfo: {}", session.getMaxInactiveInterval());
 
-//        쿠키에 시간 정보를 주지 않으면 세션 쿠기(브라우저 종료료시 모두 종료)
-//        Cookie cookie = new Cookie("mySessionId", session.getId());
-//        response.addCookie(cookie);
-        return ResponseEntity.status(HttpStatus.OK).body(authInfo);
+        return ResponseEntity.status(HttpStatus.OK).body(userInfo);
     }
 
     // 로그인 ㅅㅔ션 정보만 만료
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         log.info("session.authInfo: {}", session.getAttribute("authInfo"));
-        session.invalidate();
+        if (session.getAttribute("authInfo") == null) {
+            return "not login";
+        }
+        session.removeAttribute("authInfo");
         return "logout";
     }
 }

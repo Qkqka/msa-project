@@ -1,6 +1,6 @@
 package com.msa.controller;
 
-import com.msa.domain.Product;
+import com.msa.model.Product;
 import com.msa.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

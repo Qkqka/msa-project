@@ -48,6 +48,9 @@ subprojects {
         // spring boot starter
         implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        // validation @Valid..
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 
     dependencyManagement {
@@ -63,21 +66,21 @@ subprojects {
 
 // 하위 프로젝트 별 세팅
 project(':common') {
-    bootJar { enabled = false } // common, core 은 bootJar 로 패키징 할 필요 없음
+    bootJar { enabled = false } // common, core 은 독립실행을 안하기 때문에 bootJar 로 패키징 할 필요 없음
     jar { enabled = true }
 
     dependencies {
         // db 접속정보 암호화
         implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
         // 
-        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        //implementation 'org.springframework.boot:spring-boot-starter-jdbc'
         // mybatis
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
         // mysql
         runtimeOnly 'com.mysql:mysql-connector-j'
 
         // aop
-        implementation("org.springframework.boot:spring-boot-starter-aop")
+        implementation 'org.springframework.boot:spring-boot-starter-aop'
     }
 }
 project(':core') {
@@ -114,7 +117,7 @@ project(':api-gateway') {
 def allProjects() {
     return subprojects.findAll{
         /*(it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt' && it.name != 'common' && it.name != 'core')*/
-        (it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt' && it.name != 'core')
+        (it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt')
         /*(it.name != 'eureka-server' && it.name != 'api-gateway' && it.name != 'backoffice-nuxt')*/
     }
 }
@@ -155,7 +158,6 @@ configure(subprojects.findAll{ it.name.endsWith('office') }) {
 
     dependencies {
         implementation project(':core')
-        implementation project(':common')
 
         // thymeleaf
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

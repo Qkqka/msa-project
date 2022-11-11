@@ -1,6 +1,6 @@
 package com.msa.controller;
 
-import com.msa.domain.CommonCode;
+import com.msa.model.CommonCode;
 import com.msa.service.CommonCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

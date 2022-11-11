@@ -1,4 +1,4 @@
-package com.msa.domain;
+package com.msa.model;
 
 import java.io.Serializable;
 

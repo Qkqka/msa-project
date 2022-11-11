@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.msa.mapper.reader.AuthReaderMapper">
+
+    <!--
+      기능: 로그인 아이디 확인
+      작성자: fnfnksb@gmail.com
+      작성일: 2022.11.10
+     -->
+    <select id="selectManagerPassword" resultType="AdminEntity">
+        /* AuthReaderMapper.selectManagerPassword */
+        SELECT 
+            a.ADMIN_SEQ,
+            a.COMP_SEQ,
+            a.ADMIN_ID,
+            a.ADMIN_PW,
+            a.ADMIN_STAT_CD,
+            a.ADMIN_TYPE_CD,
+            group_concat(DISTINCT ag.ADMIN_GRP_ID) AS admin_grp_ids
+        FROM `system`.admin a
+        LEFT OUTER JOIN `system`.admin_grp_map agm ON agm.ADMIN_SEQ = a.ADMIN_SEQ 
+        LEFT OUTER JOIN `system`.admin_grp ag ON ag.ADMIN_GRP_ID = agm.ADMIN_GRP_ID 
+        WHERE a.ADMIN_ID = #{id}
+    </select>
+
+</mapper>

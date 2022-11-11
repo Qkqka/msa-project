@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 public class ReaderDataSourceConfig {
 
     @Bean(name = "readerDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
     public DataSource readerDataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -34,9 +34,15 @@ public class ReaderDataSourceConfig {
     public SqlSessionFactory readerSqlSessionFactory(@Qualifier("readerDataSource") DataSource readerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(readerDataSource);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.entity"); // mapper에서 사용할 도메인 패키지
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.reader.entity"); // mapper에서 사용할 도메인 패키지
         sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/reader/*.xml")); // xml 파일 경로
-        return sqlSessionFactoryBean.getObject();
+
+        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
+        org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
+        configuration.setMapUnderscoreToCamelCase(true); // camel case 자동 매핑
+        configuration.setUseGeneratedKeys(true); // insert 시 pk를 bean으로 반환
+
+        return sqlSessionFactory;
     }
 
     @Bean("readerSqlSessionTemplate")

@@ -53,10 +53,10 @@ public class TransactionConfig {
        return new TransactionInterceptor(transactionManager, nameTxAttrSource);
    }
 
-   @Bean()
+   @Bean
    public Advisor transactionAdviceManager() {
        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-       pointcut.setExpression("execution(* ..service.impl.*ServiceImpl.*(..)");
+       pointcut.setExpression("execution( * com..service.impl.*ServiceImpl.*(..))");
 
        return new DefaultPointcutAdvisor(pointcut, txAdvice());
    }

@@ -25,12 +25,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @MapperScan : *Mapper.java 패키지 경로, 멀티DB사용시 mapper클래스 파일 스켄용 basePackages를 DB별로 따로 설정
  * @EnableTransactionManagement : annotation 기반 트랜잭션 관리 사용, 필요한가..?
  * 
- * @author crewmate
+ * @author fnfnksb@gmail.com
  *
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.msa.mapper.write", sqlSessionFactoryRef = "writerSqlSessionFactory"/*, annotationClass = WriterMapper.class*/)
+@MapperScan(basePackages = "com.msa.mapper.writer", sqlSessionFactoryRef = "writerSqlSessionFactory"/*, annotationClass = WriterMapper.class*/)
 public class WriterDataSourceConfig {
 
     /**
@@ -42,18 +42,31 @@ public class WriterDataSourceConfig {
      */
     @Primary
     @Bean(name = "writerDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource") // application.yml 참고
+    @ConfigurationProperties(prefix = "spring.datasource.hikari") // application.yml 참고
     public DataSource writerDataSource() {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * SqlSessionFactory : 내부적으로 SQLSession을 만들어 내는 존재, 
+     *                     개발에서는 SQLSession을 통해서 Connection을 생성하거나 원하는 SQL을 전달하고 결과는 리턴받는 구조로 작성하게 됨.
+     *                     Mybatis설정파일을 바탕으로 SqlSessioNFactory를 생성한다. spring bean으로 등록해야 한다.
+     * SQLSession : RDB에 인증을 거친 논리적인 연결 상태, 
+     *              Mybatis를 이용해 DAO를 구현하려면 SQLSession 객체가 필요 (실제로 구현할 필요는 없다. spring 컨테이너에서 생성하도록 설정하면 자동 구현)
+     *              SQL실행이나 트랜잭션 관리를 실행한다.
+     *              Tread-safe 하지 않으므로 thread마다 필요에 따라 생성한다.
+     * 
+     * @param writerDataSource
+     * @param applcationconContext
+     * @return
+     * @throws Exception
+     */
     @Primary
     @Bean("writerSqlSessionFactory")
     public SqlSessionFactory writerSqlSessionFactory(@Qualifier("writerDataSource") DataSource writerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(writerDataSource);
-        //sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.entity"); // mapper에서 사용할 도메인 패키지
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.writer.entity"); // mapper에서 사용할 도메인 패키지
         sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/writer/*Mapper.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
@@ -64,6 +77,13 @@ public class WriterDataSourceConfig {
         return sqlSessionFactory;
     }
 
+    /**
+     * SqlSessionTemplate : SQL실행이나 트랜잭션 관리를 실행한다. 
+     *                      SQLSession 인터페이스를 구현하며, Tread-safe하다. spring bean으로 등록해야 한다.
+     * 
+     * @param writerSqlSessionFactory
+     * @return
+     */
     @Primary
     @Bean("writerSqlSessionTemplate")
     public SqlSessionTemplate writerSqlSessionTemplate(@Qualifier("writerSqlSessionFactory") SqlSessionFactory writerSqlSessionFactory) {
@@ -80,7 +100,6 @@ public class WriterDataSourceConfig {
     @Bean("writerTransactionManager")
     public TransactionManager writeTransactionManager(@Qualifier("writerDataSource") DataSource writerDataSource) {
         DataSourceTransactionManager txManager = new DataSourceTransactionManager(writerDataSource);
-        txManager.setGlobalRollbackOnParticipationFailure(false); // default true, 기존 트랜잭션 실패시 전역 롤백 여부
         return txManager;
     }
 }

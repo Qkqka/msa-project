@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.msa.domain.Manager;
+import com.msa.model.Manager;
 
 @Service
 public class ManagerService {
