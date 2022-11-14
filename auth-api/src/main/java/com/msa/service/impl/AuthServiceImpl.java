@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.msa.crypt.Sha512;
 import com.msa.domain.AuthInfo;
+import com.msa.mapper.entity.AdminEntity;
 import com.msa.mapper.reader.AuthReaderMapper;
-import com.msa.mapper.reader.entity.AdminEntity;
 import com.msa.model.ManagerLogin;
 import com.msa.service.AuthService;
 

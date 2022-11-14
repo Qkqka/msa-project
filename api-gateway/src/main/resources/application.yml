@@ -45,7 +45,7 @@ spring:
             - AddRequestHeader=auth-api-request, auth-api-request-header
             - AddResponseHeader=auth-api-response, auth-api-response-header
             - name: CustomFilter
-            - name: BackofficeAuthFilter
+#            - name: BackofficeAuthFilter
             - name: LoggingFilter
               args:
                 baseMessage: Hi, there.
@@ -58,7 +58,7 @@ spring:
             - Path=/sys/**
           filters:
             - CustomFilter
-            - BackofficeAuthFilter
+#            - BackofficeAuthFilter
             - RewritePath=/sys/(?<segment>.*), /$\{segment}
         - id: product-api
           uri: lb://PRODUCT-API
@@ -66,7 +66,7 @@ spring:
             - Path=/prd/**
           filters:
             - CustomFilter
-            - BackofficeAuthFilter
+#            - BackofficeAuthFilter
             - RewritePath=/prd/(?<segment>.*), /$\{segment}
         - id: backoffice
           uri: lb://BACKOFFICE

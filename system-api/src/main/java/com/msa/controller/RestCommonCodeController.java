@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.msa.model.CommonCode;
+import com.msa.model.CommonCodeList;
 import com.msa.service.CommonCodeService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class RestCommonCodeController {
     }
 
     @GetMapping("/code/list")
-    public List<CommonCode> getCodeList() {
+    public List<CommonCodeList> getCodeList() {
         return this.commonCodeService.selectCodeList();
     }
 }

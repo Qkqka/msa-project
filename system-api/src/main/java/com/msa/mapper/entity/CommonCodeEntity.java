@@ -1,4 +1,4 @@
-package com.msa.mapper.reader.entity;
+package com.msa.mapper.entity;
 
 import lombok.Builder;
 import lombok.Data;

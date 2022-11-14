@@ -13,7 +13,7 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ENC(gUMIH4PuYlbGzsOu4kY4j3gjMtW3b8ztTz4sgXvqCq2/fYh5OLQDqL+UyMASnV/sB8yk4HtpobEDyb1gB4M6jIK3L7v7TLAFsniPZwgFTW3R37a2yS4aTzkF/SEgpZq+nWYR9g43cGs=)
+      jdbc-url: ENC(mYVlmqqLMtdVwPn820H1rjEZaQMLpl1YlhuLnryctNbQtkUljzvRR+sZ22GSg47fjRebDrI7rSuKjQgI1zLPn3Oa5MtVKhRFI0pL6vuke85Ox6B9F1N6FUC1AQFtOLeAAh46JJD+2O4nMbXKb15fXrjJPzUe8NAylgWF+kwI1Y8=)
       username: ENC(ADWEeKTTBrsTlTVtpH0O/w==)
       password: ENC(VEnvoPsejgnDMlEIew2N7biHYqjQiiPa)
 

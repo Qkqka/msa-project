@@ -8,6 +8,7 @@
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.11
      -->
+    <!-- <select id="selectCodeList" parameterType="CommonCodeListEntity" resultType="CommonCodeEntity"> -->
     <select id="selectCodeList" resultType="CommonCodeEntity">
         /* CommonCodeReaderMapper.selectCodeList */
         SELECT 
@@ -25,6 +26,18 @@
             c.MOD_DT,
             c.REG_SEQ,
             c.MOD_SEQ
+        FROM `system`.code c
+    </select>
+
+    <!--
+      기능: 공통코드 목록 개수 조회
+      작성자: fnfnksb@gmail.com
+      작성일: 2022.11.14
+     -->
+    <select id="selectCodeListCount" resultType="Integer">
+        /* CommonCodeReaderMapper.selectCodeListCount */
+        SELECT 
+            count(*)
         FROM `system`.code c
     </select>
 

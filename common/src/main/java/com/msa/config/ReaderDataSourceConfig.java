@@ -34,7 +34,7 @@ public class ReaderDataSourceConfig {
     public SqlSessionFactory readerSqlSessionFactory(@Qualifier("readerDataSource") DataSource readerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(readerDataSource);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.reader.entity"); // mapper에서 사용할 도메인 패키지
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.entity"); // mapper에서 사용할 도메인 패키지
         sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:*mapper/reader/*.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();

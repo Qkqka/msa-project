@@ -5,13 +5,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.msa.mapper.entity.CommonCodeEntity;
 import com.msa.mapper.reader.CommonCodeReaderMapper;
-import com.msa.mapper.reader.entity.CommonCodeEntity;
 import com.msa.model.CommonCode;
+import com.msa.model.CommonCodeList;
 import com.msa.service.CommonCodeService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommonCodeServiceImpl implements CommonCodeService {
@@ -24,10 +27,21 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     }
 
     @Override
-    public List<CommonCode> selectCodeList() {
+    public List<CommonCodeList> selectCodeList() {
+        int totalCount = this.commonCodeReaderMapper.selectCodeListCount();
+
+//        CommonCodeList param = new CommonCodeList();
+//        CommonCodeListEntity entityParam = CommonCodeListEntity.builder()
+//                .currentPage(param.getCurrentPage())
+//                .rowCount(param.getRowCount())
+//                .totalPage(param.getTotalPage())
+//                .offset(param.getOffset())
+//                .build();
+
         List<CommonCodeEntity> entity = this.commonCodeReaderMapper.selectCodeList();
+
         return entity.stream().map(code -> {
-            return CommonCode.builder()
+            return CommonCodeList.builder()
                     .codeGrp(code.getCodeGrp())
                     .code(code.getCode())
                     .codeNm(code.getCodeNm())
@@ -42,6 +56,10 @@ public class CommonCodeServiceImpl implements CommonCodeService {
                     .modDt(code.getModDt())
                     .regSeq(code.getRegSeq())
                     .modSeq(code.getModSeq())
+                    .totalPage(totalCount)
+//                    .currentPage(param.getCurrentPage())
+//                    .rowCount(param.getRowCount())
+//                    .totalPage(param.getTotalPage())
                     .build();
         }).collect(Collectors.toList());
     }

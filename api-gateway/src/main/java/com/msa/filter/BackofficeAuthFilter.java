@@ -3,6 +3,7 @@ package com.msa.filter;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -32,11 +33,11 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
 
             WebClient wc = WebClient.builder()
                     .baseUrl("http://localhost:9100")
-                    .filter((request, next) -> {
-                        log.debug("WebClient request: {}", request.headers());
-                        ClientRequest filtered = ClientRequest.from(request).header("cookie", clientRequest.getHeaders().get("cookie").get(0)).build();
-                        return next.exchange(filtered);
-                    })
+//                    .filter((request, next) -> {
+//                        ClientRequest filtered = ClientRequest.from(request).header("cookie", clientRequest.getHeaders().get("cookie").get(0)).build();
+//                        return next.exchange(filtered);
+//                    })
+                    .defaultHeader(HttpHeaders.COOKIE, clientRequest.getHeaders().get("cookie").get(0))
                     .build(); // 이게맞는지 여쭤보기..
             String authYn = wc.get()
                 .uri("/auth/auth_check")
