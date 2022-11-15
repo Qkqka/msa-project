@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" style="border: 1px solid black">
         <h3>LOGIN PAGE</h3>
         <button @click="count++">You Clicked me {{ count }} times.</button
         ><br />
@@ -32,7 +32,6 @@ const msg = "login page!!!";
 
 function login() {
     console.log("login!!!");
-    axios;
 }
 
 const { data, error, pending, refresh } = await useFetch(

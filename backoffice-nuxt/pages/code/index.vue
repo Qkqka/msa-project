@@ -1,6 +1,9 @@
 <script setup>
 const { data: codeList } = await useFetch(
-    "http://localhost:9100/sys/code/list"
+    "/sys/code/list",
+    {
+        server: false,
+    }
     // {
     //     method: "post",
     //     headers: {
@@ -16,7 +19,7 @@ console.log(codeList);
 </script>
 
 <template>
-    <div id="codeList">
+    <div id="codeList" style="border: 1px solid black">
         <table>
             <tr>
                 <th>index</th>
@@ -31,7 +34,7 @@ console.log(codeList);
                 <th>modDt</th>
                 <th>modSeq</th>
             </tr>
-            <tr v-for="(code, i) in codeList" :key="i">
+            <tr v-for="(code, i) in codeList">
                 <td v-text="i"></td>
                 <td v-text="code.codeGrp"></td>
                 <td v-text="code.code"></td>

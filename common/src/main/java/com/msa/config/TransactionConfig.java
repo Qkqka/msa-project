@@ -41,6 +41,8 @@ public class TransactionConfig {
        nameTxAttrSource.addTransactionalMethod("insert*", writeTxAttr);
        nameTxAttrSource.addTransactionalMethod("update*", writeTxAttr);
        nameTxAttrSource.addTransactionalMethod("delete*", writeTxAttr);
+       // 그 외엔 토랜잭션 걸기
+       //nameTxAttrSource.addTransactionalMethod("*", writeTxAttr);
 
        // 방법2
 //       Map<String, TransactionAttribute> txMethods = new HashMap<>();
@@ -56,7 +58,7 @@ public class TransactionConfig {
    @Bean
    public Advisor transactionAdviceManager() {
        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-       pointcut.setExpression("execution( * com..service.impl.*ServiceImpl.*(..))");
+       pointcut.setExpression("execution( * com..service.impl.*ServiceImpl.*(..))"); // 복잡도가 높다
 
        return new DefaultPointcutAdvisor(pointcut, txAdvice());
    }

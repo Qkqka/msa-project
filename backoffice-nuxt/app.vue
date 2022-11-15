@@ -1,7 +1,7 @@
 /* app.vue는 모든 페이지의 진입점이 되는 컴포넌트 역할을 하기 때문에 js,
 css파일을 적용하고 싶다면 app.vue에 적용해도 됨 */
 <template>
-    <div class="text-lg">
+    <div class="text-lg" style="border: 1px solid black">
         <h1>BACKOFFICE - NUXT</h1>
         <!-- layouts/ 폴더 -->
         <NuxtLayout :name="layout">

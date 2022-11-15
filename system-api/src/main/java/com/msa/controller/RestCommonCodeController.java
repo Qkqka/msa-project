@@ -21,7 +21,7 @@ public class RestCommonCodeController {
     private final CommonCodeService commonCodeService;
 
     @GetMapping("/code/{codeId}")
-    public CommonCode getCode(@PathVariable("codeId") String codeId) {
+    public CommonCode getCode(@PathVariable("codeId") String codeId) { // pathvariable 생각
         return this.commonCodeService.selectCode(codeId);
     }
 

@@ -1,13 +1,13 @@
 package com.msa.filter;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<BackofficeAuthFilter.Config> {
+
+//    private ReactorLoadBalancerExchangeFilterFunction loadbalancerexchangefilter;
 
     public BackofficeAuthFilter() {
         super(Config.class);
@@ -32,13 +34,13 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
             log.info("BackofficeAuthFilter PRE filter: request cookie -> {}", clientRequest.getCookies());
 
             WebClient wc = WebClient.builder()
-                    .baseUrl("http://localhost:9100")
+                    .baseUrl("http://localhost:9100") // lb://auth-api
 //                    .filter((request, next) -> {
 //                        ClientRequest filtered = ClientRequest.from(request).header("cookie", clientRequest.getHeaders().get("cookie").get(0)).build();
 //                        return next.exchange(filtered);
 //                    })
                     .defaultHeader(HttpHeaders.COOKIE, clientRequest.getHeaders().get("cookie").get(0))
-                    .build(); // 이게맞는지 여쭤보기..
+                    .build();
             String authYn = wc.get()
                 .uri("/auth/auth_check")
                 .retrieve()
@@ -50,7 +52,7 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                   }
                   return e;
                 })
-                .block();
+                .block(); // 동기로 바꾸면 안됨.
 //                .subscribe(e -> {
 //                    log.debug("BackofficeAuthFilter filter authYn: {}", e);
 //                    if (StringUtils.equals("N", e)) {

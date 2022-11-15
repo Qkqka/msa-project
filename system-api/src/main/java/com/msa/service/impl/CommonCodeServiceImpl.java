@@ -30,14 +30,6 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     public List<CommonCodeList> selectCodeList() {
         int totalCount = this.commonCodeReaderMapper.selectCodeListCount();
 
-//        CommonCodeList param = new CommonCodeList();
-//        CommonCodeListEntity entityParam = CommonCodeListEntity.builder()
-//                .currentPage(param.getCurrentPage())
-//                .rowCount(param.getRowCount())
-//                .totalPage(param.getTotalPage())
-//                .offset(param.getOffset())
-//                .build();
-
         List<CommonCodeEntity> entity = this.commonCodeReaderMapper.selectCodeList();
 
         return entity.stream().map(code -> {
@@ -57,9 +49,6 @@ public class CommonCodeServiceImpl implements CommonCodeService {
                     .regSeq(code.getRegSeq())
                     .modSeq(code.getModSeq())
                     .totalPage(totalCount)
-//                    .currentPage(param.getCurrentPage())
-//                    .rowCount(param.getRowCount())
-//                    .totalPage(param.getTotalPage())
                     .build();
         }).collect(Collectors.toList());
     }

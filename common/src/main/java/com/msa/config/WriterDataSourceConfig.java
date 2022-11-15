@@ -17,6 +17,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.msa.annotation.WriterMapper;
+
 /**
  * 커넥션 풀의 커넥션을 관리하기 위한 객체
  * 이 객체를 통해 커넥션을 획득 반납 등의 작업을 한다.
@@ -30,13 +32,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.msa.mapper.writer", sqlSessionFactoryRef = "writerSqlSessionFactory"/*, annotationClass = WriterMapper.class*/)
+@MapperScan(basePackages = "com.msa.mapper.writer", sqlSessionFactoryRef = "writerSqlSessionFactory", annotationClass = WriterMapper.class)
 public class WriterDataSourceConfig {
 
     /**
      * 
      * @ConfigurationProperties : 해당 Bean이 생성 되면서 해당 프로퍼티에 대한 값을 가져와 사용한다.
      *  ex) @ConfigurationProperties(prefix = "spring.datasource.firstDataSource.hikari")
+     *  poolsize
+     *  idle time
      * 
      * @return
      */
@@ -67,12 +71,15 @@ public class WriterDataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(writerDataSource);
         sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.entity"); // mapper에서 사용할 도메인 패키지
-        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:*mapper/writer/*Mapper.xml")); // xml 파일 경로
+        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/writer/*Mapper.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
         org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
-        configuration.setMapUnderscoreToCamelCase(true); // camel case 자동 매핑
-        configuration.setUseGeneratedKeys(true); // insert 시 pk를 bean으로 반환
+        configuration.setMapUnderscoreToCamelCase(true); // camel case 자동 매핑.
+        configuration.setUseGeneratedKeys(false); // insert 시 pk를 bean으로 반환 => 실무에선 false
+//        configuration.setJdbcTypeForNull(JdbcType.VARCHAR);
+        // timeout 설정
+//        configuration.setDefaultStatementTimeout(null);// 
 
         return sqlSessionFactory;
     }
@@ -92,6 +99,7 @@ public class WriterDataSourceConfig {
 
     /**
      * spring의 트랜잭션 관리 클래스
+     * datasource가 1개면 자동으로 해줌. 안써도 가능(하지만 명시적으로 권장) 근데 2개이상이면 명시해줘야함
      * 
      * @param writeDataSource
      * @return
