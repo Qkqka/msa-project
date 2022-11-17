@@ -38,9 +38,6 @@ subprojects {
     }
 
     dependencies {
-        // actuator
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
         // lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
@@ -48,9 +45,6 @@ subprojects {
         // spring boot starter
         implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-        // validation @Valid..
-        implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 
     dependencyManagement {
@@ -70,6 +64,9 @@ project(':common') {
     jar { enabled = true }
 
     dependencies {
+        // core 프로젝트
+        implementation project(':core')
+
         // db 접속정보 암호화
         implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
         // mybatis
@@ -84,6 +81,15 @@ project(':common') {
 project(':core') {
     bootJar { enabled = false } // common, core 은 bootJar 로 패키징 할 필요 없음
     jar { enabled = true }
+
+    dependencies {
+        // commons-lang3 : https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+        implementation 'org.apache.commons:commons-lang3'
+        // commons-collections4 : https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+        implementation 'org.apache.commons:commons-collections4'
+        // swagger : https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+        //implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    }
 }
 
 project(':eureka-server') {
@@ -111,6 +117,14 @@ project(':api-gateway') {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         // web - webclient 비동기로 전환시 필요, yml: spring:main:web-application-type: reactive
         implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        // commons-lang3 : https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+        implementation 'org.apache.commons:commons-lang3'
+        // commons-collections4 : https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+        implementation 'org.apache.commons:commons-collections4'
+
+        // db 접속정보 암호화
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     }
 }
 
@@ -141,7 +155,6 @@ configure(subprojects.findAll{ it.name.endsWith('-api') }) {
     jar { enabled = true }
 
     dependencies {
-        implementation project(':core')
         implementation project(':common')
 
         // devtools
@@ -149,6 +162,12 @@ configure(subprojects.findAll{ it.name.endsWith('-api') }) {
 
         // openfeign
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+        // actuator
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        // validation @Valid..
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 }
 
@@ -157,7 +176,6 @@ configure(subprojects.findAll{ it.name.endsWith('office') }) {
     jar { enabled = true }
 
     dependencies {
-        implementation project(':core')
         implementation project(':common')
 
         // thymeleaf

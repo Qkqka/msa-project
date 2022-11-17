@@ -1,4 +1,4 @@
-package com.msa.config;
+package com.msa.config.api;
 
 //import java.util.HashMap;
 //import java.util.Map;
@@ -17,7 +17,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class TransactionConfig {
 

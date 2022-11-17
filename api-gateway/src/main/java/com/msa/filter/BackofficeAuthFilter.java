@@ -1,23 +1,39 @@
 package com.msa.filter;
 
-import org.apache.commons.codec.binary.StringUtils;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.msa.exception.AdminAuthException;
+import com.msa.model.Result;
+
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
 public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<BackofficeAuthFilter.Config> {
 
-//    private ReactorLoadBalancerExchangeFilterFunction loadbalancerexchangefilter;
+    @Autowired
+    private ReactorLoadBalancerExchangeFilterFunction loadbalancerexchangefilter;
+
+    @Value("${gateway-application.auth.admin-except-url-list}")
+    private List<String> adminExceptUrlList;
+
+    @Value("${gateway-application.web.back.access-key}")
+    private String accessKey;
+
+    @Value("${gateway-application.web.back.access-value}")
+    private String accessValue;
 
     public BackofficeAuthFilter() {
         super(Config.class);
@@ -26,47 +42,71 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            ServerHttpRequest clientRequest = exchange.getRequest();
-            ServerHttpResponse response = exchange.getResponse();
+            ServerHttpRequest request = exchange.getRequest();
 
-            log.info("BackofficeAuthFilter PRE filter: request id -> {}", clientRequest.getId());
-            log.info("BackofficeAuthFilter PRE filter: request header -> {}", clientRequest.getHeaders());
-            log.info("BackofficeAuthFilter PRE filter: request cookie -> {}", clientRequest.getCookies());
+            // 요청 url
+            String url = request.getURI().getPath();
 
-            WebClient wc = WebClient.builder()
-                    .baseUrl("http://localhost:9100") // lb://auth-api
-//                    .filter((request, next) -> {
-//                        ClientRequest filtered = ClientRequest.from(request).header("cookie", clientRequest.getHeaders().get("cookie").get(0)).build();
-//                        return next.exchange(filtered);
-//                    })
-                    .defaultHeader(HttpHeaders.COOKIE, clientRequest.getHeaders().get("cookie").get(0))
-                    .build();
-            String authYn = wc.get()
-                .uri("/auth/auth_check")
-                .retrieve()
-                .bodyToMono(String.class)
-                .map(e -> {
-                  log.debug("BackofficeAuthFilter filter authYn: {}", e);
-                  if (StringUtils.equals("N", e)) {
-                      throw new RuntimeException("로그인 해주세요.");
-                  }
-                  return e;
-                })
-                .block(); // 동기로 바꾸면 안됨.
-//                .subscribe(e -> {
-//                    log.debug("BackofficeAuthFilter filter authYn: {}", e);
-//                    if (StringUtils.equals("N", e)) {
-//                        throw new RuntimeException("로그인 해주세요.");
-//                    }
-//                });
+            // checkUrl 체크
+            boolean isAdminCheck = true;
 
-            return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                log.info("BackofficeAuthFilter POST filter: response code -> {}, authYn: {}", response.getStatusCode(), authYn);
-            }));
+            if (!CollectionUtils.isEmpty(adminExceptUrlList)) {
+                // url의 정확한 매칭 체크
+                isAdminCheck = this.adminExceptUrlList.stream().anyMatch(chkUrl -> StringUtils.equals(url, chkUrl) ? false : true);
+
+                // url의 *문자열 체크
+                //  - 앞에서 false가 되지 않았다면 체크함.
+                if (isAdminCheck) {
+                    isAdminCheck = this.adminExceptUrlList.stream()
+                            .filter(chkUrl -> StringUtils.endsWith(chkUrl, "*"))
+                            .map(chkUrl -> StringUtils.substringBeforeLast(chkUrl, "*"))
+                            .anyMatch(chkUrl -> StringUtils.startsWith(url, chkUrl)) ? false : true;
+                }
+            }
+
+            if ( !isAdminCheck ) {
+                // 엑세스 토큰 설정해야함
+                return chain.filter(exchange);
+
+            } else {
+                // 헤더 정보
+                HttpHeaders headers = request.getHeaders();
+
+                // 요청 url -> try~catch로 감싼이유
+                String api = request.getPath().value();
+
+                // 관리자 체크 로직 필요한 경우와 그냥 통과하는 부분을 구분해서 처리함.
+                WebClient wc = WebClient.builder()
+                        .filter(this.loadbalancerexchangefilter)
+                        .baseUrl("lb://auth-api")
+                        .build();
+
+                return wc.get()
+                        .uri("check")
+                        .headers(header -> {
+                            // 쿠키이관
+                            if (!CollectionUtils.isEmpty(headers.get("Cookie"))) {
+                                header.addAll("Cookie", headers.get("Cookie"));
+                            }
+
+                            // 엑세스토큰 설정
+                            header.add(accessKey, accessValue);
+                        })
+                        .retrieve()
+                        .bodyToMono(Result.class)
+                        .map(result -> {
+                            log.info("BackofficeAuthFilter.result: {}", result);
+                            if (result.getResultCode() != -1) {
+                                throw new AdminAuthException(result.getResultCode(), result.getResultMsg());
+                            }
+
+                            return exchange;
+                        })
+                        .flatMap(chain::filter);
+            }
         });
     }
 
     public static class Config {
-        
     }
 }

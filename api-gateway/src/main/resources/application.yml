@@ -45,7 +45,7 @@ spring:
             - AddRequestHeader=auth-api-request, auth-api-request-header
             - AddResponseHeader=auth-api-response, auth-api-response-header
             - name: CustomFilter
-#            - name: BackofficeAuthFilter
+            - name: BackofficeAuthFilter
             - name: LoggingFilter
               args:
                 baseMessage: Hi, there.
@@ -58,7 +58,7 @@ spring:
             - Path=/sys/**
           filters:
             - CustomFilter
-#            - BackofficeAuthFilter
+            - BackofficeAuthFilter
             - RewritePath=/sys/(?<segment>.*), /$\{segment}
         - id: product-api
           uri: lb://PRODUCT-API
@@ -66,15 +66,13 @@ spring:
             - Path=/prd/**
           filters:
             - CustomFilter
-#            - BackofficeAuthFilter
+            - BackofficeAuthFilter
             - RewritePath=/prd/(?<segment>.*), /$\{segment}
         - id: backoffice
           uri: lb://BACKOFFICE
           predicates:
             - Path=/**
             - Host=back-office.com*
-#          filters:
-#            - RewritePath=/(?<segment>.*), /$\{segment}
         - id: backoffice-nuxt
           uri: http://localhost:3000
           predicates:
@@ -105,3 +103,17 @@ logging:
 #      enabled: true
 #    health:
 #      show-details: always  # actuator에서 상세한 정보들을 확인하기 위해 설정
+
+jasypt:
+  encryptor:
+#    bean: jasyptStringEncryptor
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator # PBEWithMD5AndDES 사용시 필수 속성
+
+gateway-application:
+  auth:
+    admin-except-url-list: http://back-office.com:9100/login, http://back-office.com:9100/auth/health_check, http://back-office.com:9100/auth/login/
+  web:
+    back:
+      access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)
+      access-value: ENC(Or5+Gb82k5Ed/7NpF1b+72FKu8m4Zic4V61o1x5sik8=)

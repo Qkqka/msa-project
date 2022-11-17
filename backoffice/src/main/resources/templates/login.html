@@ -20,9 +20,11 @@
       // get/post, URL패턴 확인 (EX.비밀번호확인창 등)
       function login() {
         axios
-          .post("/auth/login/", {
-              'id' : document.getElementById("id").value,
-              'password' : document.getElementById("password").value
+          .get("/auth/login/", {
+              params: {
+                  'id' : document.getElementById("id").value,
+                  'password' : document.getElementById("password").value
+              }
           })
           .then((res) => {
             console.log(res);
@@ -31,7 +33,7 @@
 
       function logout() {
         axios
-          .post("/auth/logout")
+          .get("/auth/logout")
           .then((res) => {
             console.log(res);
           });

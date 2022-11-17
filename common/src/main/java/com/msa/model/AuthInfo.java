@@ -1,9 +1,13 @@
-package com.msa.mapper.entity;
+package com.msa.model;
+
+import java.io.Serializable;
 
 import lombok.Data;
 
 @Data
-public class AdminEntity {
+public class AuthInfo implements Serializable {
+
+    private static final long serialVersionUID = 248695190893364620L;
 
     /**
      * 관리자 고유번호

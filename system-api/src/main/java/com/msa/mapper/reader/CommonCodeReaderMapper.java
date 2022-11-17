@@ -2,14 +2,13 @@ package com.msa.mapper.reader;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.msa.annotation.ReaderMapper;
+import com.msa.model.CommonCodeList;
 
-import com.msa.mapper.entity.CommonCodeEntity;
-
-@Mapper
+@ReaderMapper
 public interface CommonCodeReaderMapper {
 
-    List<CommonCodeEntity> selectCodeList();
+    List<CommonCodeList> selectCodeList();
 
     int selectCodeListCount();
 

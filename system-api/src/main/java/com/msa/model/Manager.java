@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper=false)
-public class Manager extends BaseDomain {
+public class Manager extends BaseModel {
 
     private static final long serialVersionUID = 9214170872674026619L;
 

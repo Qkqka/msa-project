@@ -1,4 +1,4 @@
-package com.msa.config;
+package com.msa.config.api;
 
 import javax.sql.DataSource;
 
@@ -7,11 +7,15 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.msa.annotation.ReaderMapper;
 
 /**
  * 커넥션 풀의 커넥션을 관리하기 위한 객체
@@ -21,7 +25,8 @@ import org.springframework.context.annotation.Configuration;
  * @author fnfnksb@gmail.com
  */
 @Configuration
-@MapperScan(basePackages = "com.msa.mapper.reader", sqlSessionFactoryRef = "readerSqlSessionFactory") // *Mapper.java 파일 경로
+@MapperScan(basePackages = "com.msa.mapper.reader", sqlSessionFactoryRef = "readerSqlSessionFactory", annotationClass = ReaderMapper.class) // *Mapper.java 파일 경로
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ReaderDataSourceConfig {
 
     @Bean(name = "readerDataSource")
@@ -34,7 +39,7 @@ public class ReaderDataSourceConfig {
     public SqlSessionFactory readerSqlSessionFactory(@Qualifier("readerDataSource") DataSource readerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(readerDataSource);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.entity"); // mapper에서 사용할 도메인 패키지
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.model"); // mapper에서 사용할 도메인 패키지
         sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/reader/*.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();

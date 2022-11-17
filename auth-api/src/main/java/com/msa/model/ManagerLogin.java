@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class ManagerLogin extends BaseDomain {
+public class ManagerLogin extends BaseModel {
     /**
      * 
      */

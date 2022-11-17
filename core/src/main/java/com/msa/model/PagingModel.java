@@ -5,7 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class PagingDomain implements Serializable {
+public class PagingModel implements Serializable {
     /**
      * 
      */

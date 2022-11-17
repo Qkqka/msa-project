@@ -2,7 +2,7 @@ package com.msa.model;
 
 import java.io.Serializable;
 
-public class BaseDomain implements Serializable {
+public class BaseModel implements Serializable {
 
     /**
      *

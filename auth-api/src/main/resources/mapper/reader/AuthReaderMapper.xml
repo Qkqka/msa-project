@@ -4,12 +4,12 @@
 <mapper namespace="com.msa.mapper.reader.AuthReaderMapper">
 
     <!--
-      기능: 로그인 아이디 확인
+      기능: 관리자 정보 조회
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.10
      -->
-    <select id="selectManagerPassword" resultType="AdminEntity">
-        /* AuthReaderMapper.selectManagerPassword */
+    <select id="selectAdminInfo" resultType="AuthInfo">
+        /* AuthReaderMapper.selectAdminInfo */
         SELECT 
             a.ADMIN_SEQ,
             a.COMP_SEQ,

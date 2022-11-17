@@ -1,4 +1,4 @@
-package com.msa.config;
+package com.msa.config.api;
 
 import javax.sql.DataSource;
 
@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.aop.Advisor;
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -16,6 +19,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
+import org.springframework.transaction.interceptor.RollbackRuleAttribute;
+import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import com.msa.annotation.WriterMapper;
 
@@ -70,7 +77,7 @@ public class WriterDataSourceConfig {
     public SqlSessionFactory writerSqlSessionFactory(@Qualifier("writerDataSource") DataSource writerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(writerDataSource);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.mapper.entity"); // mapper에서 사용할 도메인 패키지
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.model"); // mapper에서 사용할 도메인 패키지
         sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/writer/*Mapper.xml")); // xml 파일 경로
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
@@ -109,5 +116,34 @@ public class WriterDataSourceConfig {
     public TransactionManager writeTransactionManager(@Qualifier("writerDataSource") DataSource writerDataSource) {
         DataSourceTransactionManager txManager = new DataSourceTransactionManager(writerDataSource);
         return txManager;
+    }
+
+    @Primary
+    @Bean("writerTxAdvice")
+    public TransactionInterceptor txAdvice(@Qualifier("writerTransactionManager") TransactionManager writerTransactionManager) {
+        // 읽기 전용 트랜잭션
+        RuleBasedTransactionAttribute readOnlyTxAttr = new RuleBasedTransactionAttribute();
+        readOnlyTxAttr.setReadOnly(true);
+        readOnlyTxAttr.setTimeout(10);
+
+        // 쓰기 전용 트랜잭션
+        RuleBasedTransactionAttribute writeTxAttr = new RuleBasedTransactionAttribute();
+        writeTxAttr.getRollbackRules().add(new RollbackRuleAttribute(Exception.class));
+        writeTxAttr.setTimeout(10);
+
+        NameMatchTransactionAttributeSource nameTxAttrSource = new NameMatchTransactionAttributeSource();
+        nameTxAttrSource.addTransactionalMethod("select*", readOnlyTxAttr);
+        nameTxAttrSource.addTransactionalMethod("*", writeTxAttr);
+
+        return new TransactionInterceptor(writerTransactionManager, nameTxAttrSource);
+    }
+
+    @Primary
+    @Bean("writerTransactionAdviceManager")
+    public Advisor transactionAdviceManager(@Qualifier("writerTxAdvice") TransactionInterceptor writerTxAdvice) {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("execution( * com..service.*Service.*(..))"); // 복잡도가 높다
+
+        return new DefaultPointcutAdvisor(pointcut, writerTxAdvice);
     }
 }

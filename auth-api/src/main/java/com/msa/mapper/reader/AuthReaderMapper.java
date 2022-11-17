@@ -1,13 +1,13 @@
 package com.msa.mapper.reader;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.msa.mapper.entity.AdminEntity;
+import com.msa.annotation.ReaderMapper;
+import com.msa.model.AuthInfo;
 
-@Mapper
+@ReaderMapper
 public interface AuthReaderMapper {
 
-    AdminEntity selectManagerPassword(@Param("id") String id);
+    AuthInfo selectAdminInfo(@Param("id") String id);
 
 }

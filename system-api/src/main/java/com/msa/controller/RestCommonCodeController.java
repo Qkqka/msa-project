@@ -1,32 +1,29 @@
 package com.msa.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.msa.model.CommonCode;
-import com.msa.model.CommonCodeList;
+import com.msa.model.Result;
 import com.msa.service.CommonCodeService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/code")
 @RequiredArgsConstructor
 public class RestCommonCodeController {
 
     private final CommonCodeService commonCodeService;
 
-    @GetMapping("/code/{codeId}")
-    public CommonCode getCode(@PathVariable("codeId") String codeId) { // pathvariable 생각
-        return this.commonCodeService.selectCode(codeId);
+    @GetMapping("/{codeId}")
+    public Result getCode(@PathVariable("codeId") String codeId) { // pathvariable 생각
+        return new Result(this.commonCodeService.selectCode(codeId));
     }
 
-    @GetMapping("/code/list")
-    public List<CommonCodeList> getCodeList() {
-        return this.commonCodeService.selectCodeList();
+    @GetMapping("/list")
+    public Result getCodeList() {
+        return new Result(this.commonCodeService.selectCodeList());
     }
 }

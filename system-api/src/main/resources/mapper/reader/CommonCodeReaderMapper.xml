@@ -9,7 +9,7 @@
       작성일: 2022.11.11
      -->
     <!-- <select id="selectCodeList" parameterType="CommonCodeListEntity" resultType="CommonCodeEntity"> -->
-    <select id="selectCodeList" resultType="CommonCodeEntity">
+    <select id="selectCodeList" resultType="CommonCodeList">
         /* CommonCodeReaderMapper.selectCodeList */
         SELECT 
             c.CODE_GRP,
