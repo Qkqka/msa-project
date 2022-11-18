@@ -15,36 +15,36 @@ spring:
             preLogger: true
             postLogger: true
       routes:
-        - id: auth-api-login
-          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
-          predicates:
-            - Path=/auth/login
-            - Method=POST
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /$\{segment}
-        - id: auth-api-logout
-          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
-          predicates:
-            - Path=/auth/logout
-            - Method=POST
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /$\{segment}
-        - id: auth-api-check
-          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
-          predicates:
-            - Path=/auth/auth_check
-            - Method=GET
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+#        - id: auth-api-login
+#          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+#          predicates:
+#            - Path=/auth/login
+#            - Method=GET
+#          filters:
+#            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+#        - id: auth-api-logout
+#          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+#          predicates:
+#            - Path=/auth/logout
+#            - Method=GET
+#          filters:
+#            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+#        - id: auth-api-check
+#          uri: lb://AUTH-API # eureka에 등록된 서비스 이름
+#          predicates:
+#            - Path=/auth/check
+#            - Method=GET
+#          filters:
+#            - RewritePath=/auth/(?<segment>.*), /$\{segment}
         - id: auth-api
           uri: lb://AUTH-API # eureka에 등록된 서비스 이름
           predicates:
             - Path=/auth/**
-            - Method=GET
+#            - Method=GET
           filters:
-            - AddRequestHeader=auth-api-request, auth-api-request-header
-            - AddResponseHeader=auth-api-response, auth-api-response-header
-            - name: CustomFilter
+#            - AddRequestHeader=auth-api-request, auth-api-request-header
+#            - AddResponseHeader=auth-api-response, auth-api-response-header
+#            - name: CustomFilter
             - name: BackofficeAuthFilter
             - name: LoggingFilter
               args:
@@ -57,7 +57,7 @@ spring:
           predicates:
             - Path=/sys/**
           filters:
-            - CustomFilter
+#            - CustomFilter
             - BackofficeAuthFilter
             - RewritePath=/sys/(?<segment>.*), /$\{segment}
         - id: product-api
@@ -65,7 +65,7 @@ spring:
           predicates:
             - Path=/prd/**
           filters:
-            - CustomFilter
+#            - CustomFilter
             - BackofficeAuthFilter
             - RewritePath=/prd/(?<segment>.*), /$\{segment}
         - id: backoffice
@@ -104,16 +104,13 @@ logging:
 #    health:
 #      show-details: always  # actuator에서 상세한 정보들을 확인하기 위해 설정
 
-jasypt:
-  encryptor:
-#    bean: jasyptStringEncryptor
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator # PBEWithMD5AndDES 사용시 필수 속성
-
-gateway-application:
+application:
+  name: ${spring.application.name}
   auth:
-    admin-except-url-list: http://back-office.com:9100/login, http://back-office.com:9100/auth/health_check, http://back-office.com:9100/auth/login/
+    admin-except-url-list: /auth/login/, /auth/health_check
   web:
     back:
       access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)
       access-value: ENC(Or5+Gb82k5Ed/7NpF1b+72FKu8m4Zic4V61o1x5sik8=)
+
+

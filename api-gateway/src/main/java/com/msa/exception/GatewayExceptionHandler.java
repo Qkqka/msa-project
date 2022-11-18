@@ -19,32 +19,51 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.msa.model.Result;
+
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+/**
+ * custom exception handler 
+ * https://riverblue.tistory.com/69
+ * @author fnfnksb@gmail.com
+ */
 @Slf4j
 @Order(-2)
 @Component
 public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
 
-    public GatewayExceptionHandler(ErrorAttributes errorAttributes, Resources resources, ApplicationContext applicationContext,
-            ServerCodecConfigurer configurer) {
+    public GatewayExceptionHandler(ErrorAttributes errorAttributes, Resources resources, ApplicationContext applicationContext, ServerCodecConfigurer configurer) {
         super(errorAttributes, resources, applicationContext);
+        this.setMessageReaders(configurer.getReaders());
         this.setMessageWriters(configurer.getWriters());
     }
 
     @Override
     protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
-        return RouterFunctions.route(RequestPredicates.all(),  this::renderErrorResponse);
+        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
     }
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-       Map<String, Object> errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults());
+       Map<String, Object> map = getErrorAttributes(request, ErrorAttributeOptions.defaults());
+       Throwable throwable = super.getError(request);
+       Result result = null;
 
-       log.info("타니???????????????? : {}", request);
+       if (throwable instanceof AdminAuthException) {
+           AdminAuthException ex = (AdminAuthException) getError(request);
+
+           result = new Result(ex.getResultCode(), ex.getResultMsg());
+       } else {
+           log.info("사용자 정의 exception 아님");
+           result = new Result();
+       }
+
+       log.error("GatewayExceptionHandler", throwable);
+//       return ServerResponse.temporaryRedirect(URI.create("/")).build(); // 로그인페이지로 이동됨. 근데 데이터 세팅 어떡함?.
        return ServerResponse.status(HttpStatus.BAD_REQUEST)
               .contentType(MediaType.APPLICATION_JSON)
-              .body(BodyInserters.fromValue(errorPropertiesMap));
+              .body(BodyInserters.fromValue(result));
     }
 
 }

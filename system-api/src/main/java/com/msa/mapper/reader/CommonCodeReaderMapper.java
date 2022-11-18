@@ -2,14 +2,25 @@ package com.msa.mapper.reader;
 
 import java.util.List;
 
-import com.msa.annotation.ReaderMapper;
-import com.msa.model.CommonCodeList;
+import org.apache.ibatis.annotations.Param;
 
+import com.msa.annotation.ReaderMapper;
+import com.msa.model.CommonCode;
+import com.msa.model.CommonCodeList;
+import com.msa.model.CommonCodeSearch;
+
+/**
+ * 공통코드 reader mapper
+ * 
+ * @author fnfnksb@gmail.com
+ */
 @ReaderMapper
 public interface CommonCodeReaderMapper {
 
-    List<CommonCodeList> selectCodeList();
+    List<CommonCodeList> selectCodeList(CommonCodeSearch param);
 
-    int selectCodeListCount();
+    int selectCodeListCount(CommonCodeSearch param);
+
+    CommonCode selectCode(@Param("codeGrp") String codeGrp, @Param("code") String code);
 
 }

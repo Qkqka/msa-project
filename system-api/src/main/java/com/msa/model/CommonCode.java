@@ -1,11 +1,20 @@
 package com.msa.model;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Builder
+/**
+ * 공통코드 도메인
+ * @author fnfnksb@gmail.com
+ */
 @Data
-public class CommonCode {
+@EqualsAndHashCode(callSuper=false)
+public class CommonCode extends BaseModel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2004009091676222329L;
+
     private String codeGrp;
     private String code;
     private String codeNm;
@@ -15,7 +24,7 @@ public class CommonCode {
     private String codeVal4;
     private String codeVal5;
     private String useYn;
-    private String dispNo;
+    private int dispNo;
     private String regDt;
     private String modDt;
     private String regSeq;

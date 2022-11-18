@@ -1,4 +1,4 @@
-package com.msa.crypt;
+package com.msa.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

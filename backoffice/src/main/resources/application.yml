@@ -1,5 +1,9 @@
 server:
   port: 0 # 8000
+  compression:
+    enabled: true # gzip 설정
+    mime-types: text/html,text/plain,text/css,application/javascript,application/json # 압축을 허용할 mime-type
+    min-response-size: 500 # 압축을 허용할 최소 사이즈 (500바이트 미만의 데이터라면 압축을 진행하지 않음)
 
 spring:
   application:

@@ -3,10 +3,10 @@ package com.msa.service;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.msa.crypt.Sha512;
 import com.msa.mapper.reader.AuthReaderMapper;
 import com.msa.model.AuthInfo;
 import com.msa.util.CommonUtil;
+import com.msa.util.Sha512;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

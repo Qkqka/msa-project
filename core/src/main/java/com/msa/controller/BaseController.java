@@ -19,7 +19,7 @@ public class BaseController {
 
     public Object getSession(String key) {
         HttpSession session = request.getSession();
-        log.debug("BaseController.getSession: {}", session);
+        //log.debug("BaseController.getSession: {}", session);
         return session.getAttribute(key);
     }
 
@@ -30,8 +30,8 @@ public class BaseController {
         session.setAttribute(key, authInfo);
         session.setMaxInactiveInterval(60*5); // 5분
 
-        log.info("session.attribute: {}", session.getAttribute(key));
-        log.info("session.attribute.maxInactiveInterval: {}", session.getMaxInactiveInterval());
+        //log.info("session.attribute: {}", session.getAttribute(key));
+        //log.info("session.attribute.maxInactiveInterval: {}", session.getMaxInactiveInterval());
     }
 
     public boolean removeSession(String key) {

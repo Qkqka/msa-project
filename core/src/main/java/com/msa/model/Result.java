@@ -1,25 +1,26 @@
 package com.msa.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 공통응답모델
- * @author crewmate
- * @param <T>
- * @param <T>
+ * 
+ * @author fnfnksb@gmail.com
  */
-@Getter @Setter
+@Data
 @NoArgsConstructor // 파라미터가 없는 기본 생성자를 생성
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 만듦
 //@RequiredArgsConstructor // final이나 @NonNull인 필드 값만 파라미터로 받는 생성자 만듦
-public class Result<T> {
+public class Result {
 
     private int resultCode;
 
-    private T data;
+    private Map<String, Object> resultData;
 
     private String resultMsg;
 
@@ -27,17 +28,17 @@ public class Result<T> {
         this.resultCode = resultCode;
     }
 
-    public Result(T data) {
-        this.data = data;
+    public Result(Map<String, Object> resultData) {
+        this.resultData = resultData;
     }
 
     public Result(String resultMsg) {
         this.resultMsg = resultMsg;
     }
 
-    public Result(int resultCode, T data) {
+    public Result(int resultCode, Map<String, Object> resultData) {
         this.resultCode = resultCode;
-        this.data = data;
+        this.resultData = resultData;
     }
 
     public Result(int resultCode, String resultMsg) {
@@ -45,8 +46,23 @@ public class Result<T> {
         this.resultMsg = resultMsg;
     }
 
-    public Result(String resultMsg, T data) {
+    public Result(String resultMsg, Map<String, Object> resultData) {
         this.resultMsg = resultMsg;
-        this.data = data;
+        this.resultData = resultData;
+    }
+
+    public Result(Object data) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", data);
+
+        this.resultData = map;
+    }
+
+    public Result(String resultMsg, Object data) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", data);
+
+        this.resultMsg = resultMsg;
+        this.resultData = map;
     }
 }

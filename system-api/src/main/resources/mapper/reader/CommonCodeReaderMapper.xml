@@ -9,24 +9,28 @@
       작성일: 2022.11.11
      -->
     <!-- <select id="selectCodeList" parameterType="CommonCodeListEntity" resultType="CommonCodeEntity"> -->
-    <select id="selectCodeList" resultType="CommonCodeList">
+    <select id="selectCodeList" parameterType="CommonCodeSearch" resultType="CommonCodeList">
         /* CommonCodeReaderMapper.selectCodeList */
         SELECT 
-            c.CODE_GRP,
-            c.CODE,
-            c.CODE_NM,
-            c.CODE_VAL1,
-            c.CODE_VAL2,
-            c.CODE_VAL3,
-            c.CODE_VAL4,
-            c.CODE_VAL5,
-            c.USE_YN,
-            c.DISP_NO,
-            c.REG_DT,
-            c.MOD_DT,
-            c.REG_SEQ,
-            c.MOD_SEQ
+            c.code_grp,
+            c.code,
+            c.code_nm,
+            c.code_val1,
+            c.code_val2,
+            c.code_val3,
+            c.code_val4,
+            c.code_val5,
+            c.use_yn,
+            c.disp_no,
+            c.reg_dt,
+            c.mod_dt,
+            c.reg_seq,
+            c.mod_seq
         FROM `system`.code c
+        <include refid="selectCodeListWhere" />
+        <if test="isPaging">
+        LIMIT #{rowCount} OFFSET #{startPage}
+        </if>
     </select>
 
     <!--
@@ -34,11 +38,61 @@
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.14
      -->
-    <select id="selectCodeListCount" resultType="Integer">
+    <select id="selectCodeListCount" parameterType="CommonCodeSearch" resultType="Integer">
         /* CommonCodeReaderMapper.selectCodeListCount */
         SELECT 
             count(*)
         FROM `system`.code c
+        <include refid="selectCodeListWhere" />
+    </select>
+
+    <!-- 
+        기능: 공통코드 목록 검색조건
+        작성자: fnfnksb@gmail.com
+        작성일: 2022.11.17
+    -->
+    <sql id="selectCodeListWhere">
+        WHERE 1=1
+        <if test="!@org.apache.commons.lang3.StringUtils@isBlank(codeGrp)">
+        AND c.code_grp = #{codeGrp}
+        </if>
+        <if test="!@org.apache.commons.lang3.StringUtils@isBlank(code)">
+        AND c.code = #{code}
+        </if>
+        <if test="!@org.apache.commons.lang3.StringUtils@isBlank(codeNm)">
+        AND c.code_nm = #{codeNm}
+        </if>
+        <if test="!@org.apache.commons.lang3.StringUtils@isBlank(useYn)">
+        AND c.use_yn = #{useYn}
+        </if>
+    </sql>
+
+    <!-- 
+        기능: 공통코드 정보 조회
+        작성자: fnfnksb@gmail.com
+        작성일: 2022.11.17
+    -->
+    <select id="selectCode" resultType="CommonCode">
+        /* CommonCodeReaderMapper.selectCode */
+        SELECT 
+            c.code_grp,
+            c.code,
+            c.code_nm,
+            c.code_val1,
+            c.code_val2,
+            c.code_val3,
+            c.code_val4,
+            c.code_val5,
+            c.use_yn,
+            c.disp_no,
+            c.reg_dt,
+            c.mod_dt,
+            c.reg_seq,
+            c.mod_seq
+        FROM `system`.code c
+        WHERE
+            c.code_grp = #{codeGrp}
+        AND c.code = #{code}
     </select>
 
 </mapper>

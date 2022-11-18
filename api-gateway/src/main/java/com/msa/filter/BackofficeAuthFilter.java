@@ -26,13 +26,13 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
     @Autowired
     private ReactorLoadBalancerExchangeFilterFunction loadbalancerexchangefilter;
 
-    @Value("${gateway-application.auth.admin-except-url-list}")
+    @Value("${application.auth.admin-except-url-list}")
     private List<String> adminExceptUrlList;
 
-    @Value("${gateway-application.web.back.access-key}")
+    @Value("${application.web.back.access-key}")
     private String accessKey;
 
-    @Value("${gateway-application.web.back.access-value}")
+    @Value("${application.web.back.access-value}")
     private String accessValue;
 
     public BackofficeAuthFilter() {
@@ -50,9 +50,9 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
             // checkUrl 체크
             boolean isAdminCheck = true;
 
-            if (!CollectionUtils.isEmpty(adminExceptUrlList)) {
+            if (!CollectionUtils.isEmpty(this.adminExceptUrlList)) {
                 // url의 정확한 매칭 체크
-                isAdminCheck = this.adminExceptUrlList.stream().anyMatch(chkUrl -> StringUtils.equals(url, chkUrl) ? false : true);
+                isAdminCheck = this.adminExceptUrlList.stream().anyMatch(chkUrl -> StringUtils.equals(url, chkUrl)) ? false : true;
 
                 // url의 *문자열 체크
                 //  - 앞에서 false가 되지 않았다면 체크함.
@@ -82,7 +82,7 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                         .build();
 
                 return wc.get()
-                        .uri("check")
+                        .uri("check?api=" + api)
                         .headers(header -> {
                             // 쿠키이관
                             if (!CollectionUtils.isEmpty(headers.get("Cookie"))) {
@@ -95,8 +95,7 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                         .retrieve()
                         .bodyToMono(Result.class)
                         .map(result -> {
-                            log.info("BackofficeAuthFilter.result: {}", result);
-                            if (result.getResultCode() != -1) {
+                            if (result.getResultCode() == -1) {
                                 throw new AdminAuthException(result.getResultCode(), result.getResultMsg());
                             }
 

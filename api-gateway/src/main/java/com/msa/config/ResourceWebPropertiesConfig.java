@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * AbstractErrorWebExceptionHandler를 사용하기 위한 resource를 등록함.
- * @author crewmate
+ * @author fnfnksb@gmail.com
  */
 @Configuration
 public class ResourceWebPropertiesConfig {

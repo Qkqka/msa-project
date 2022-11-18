@@ -66,9 +66,6 @@ project(':common') {
     dependencies {
         // core 프로젝트
         implementation project(':core')
-
-        // db 접속정보 암호화
-        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
         // mybatis
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
         // mysql
@@ -83,6 +80,8 @@ project(':core') {
     jar { enabled = true }
 
     dependencies {
+        // db 접속정보 암호화
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
         // commons-lang3 : https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
         implementation 'org.apache.commons:commons-lang3'
         // commons-collections4 : https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
@@ -111,20 +110,17 @@ project(':api-gateway') {
     jar { enabled = true }
 
     dependencies {
+        // core 프로젝트
+        implementation project(':core')
+
         // spring cloud gateway
         implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
         // eureka client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         // web - webclient 비동기로 전환시 필요, yml: spring:main:web-application-type: reactive
         implementation 'org.springframework.boot:spring-boot-starter-web'
-
-        // commons-lang3 : https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-        implementation 'org.apache.commons:commons-lang3'
-        // commons-collections4 : https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-        implementation 'org.apache.commons:commons-collections4'
-
-        // db 접속정보 암호화
-        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+        // devtools
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
     }
 }
 

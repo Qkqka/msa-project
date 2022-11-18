@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,30 +53,30 @@ public class RestAuthController extends BaseController {
      * @return
      */
     @GetMapping("/login")
-    public Result<?> login(@RequestParam("id") String id, @RequestParam("password") String password) {
+    public Result login(@RequestParam("id") String id, @RequestParam("password") String password) {
         log.info("RestAuthController.login id: {}");
 
         // 사용자정보 조회
         AuthInfo userInfo = authService.selectAdminInfo(id, password);
         if (userInfo == null) {
-            return new Result<>();
+            return new Result();
         }
 
         super.setSession(CommonCode.LOGIN_SESSION, userInfo);
 
         log.info("RestAuthController.login: {}", userInfo);
 
-        return new Result<>(userInfo);
+        return new Result(userInfo);
     }
 
     // 로그인 ㅅㅔ션 정보만 만료
-    @PostMapping("/logout")
-    public Result<?> logout() {
+    @GetMapping("/logout")
+    public Result logout() {
         if (super.removeSession(CommonCode.LOGIN_SESSION)) {
-            return new Result<>("not login");
+            return new Result("not login");
         }
 
-        return new Result<>("logout");
+        return new Result("logout");
     }
 
     /**
@@ -87,13 +86,13 @@ public class RestAuthController extends BaseController {
      * @return
      */
     @GetMapping("/check")
-    public Result<?> authCheck(String redirectUrl) {
-        log.debug("RestAuthController.authCheck()");
+    public Result authCheck(String redirectUrl) {
+        log.debug("RestAuthController.authCheck");
 
         if (super.getSession(CommonCode.LOGIN_SESSION) == null) {
-            return new Result<>(-1);
+            return new Result(-1, "권한이 없습니다.");
         }
 
-        return new Result<>(0);
+        return new Result(0);
     }
 }
