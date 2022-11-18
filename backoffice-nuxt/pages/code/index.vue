@@ -1,4 +1,6 @@
 <template>
+    <v-btn><nuxt-link to="/code/create">등록</nuxt-link></v-btn>
+
     <v-table fixed-header height="500px" density="compact">
         <thead>
             <tr>
