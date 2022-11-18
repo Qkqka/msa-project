@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.msa.mapper.reader.CommonCodeReaderMapper;
 import com.msa.mapper.writer.CommonCodeWriterMapper;
-import com.msa.model.CommonCode;
+import com.msa.model.Code;
 import com.msa.model.CommonCodeList;
 import com.msa.model.CommonCodeSearch;
 
@@ -61,12 +61,12 @@ public class CommonCodeService {
      * @param code
      * @return
      */
-    public CommonCode selectCode(String codeGrp, String code) {
+    public Code selectCode(String codeGrp, String code) {
         if (StringUtils.isBlank(codeGrp) || StringUtils.isBlank(code)) {
             throw new IllegalArgumentException("필수값을 다시 확인해주세요.");
         }
 
-        CommonCode commonCode = this.commonCodeReaderMapper.selectCode(codeGrp, code);
+        Code commonCode = this.commonCodeReaderMapper.selectCode(codeGrp, code);
         if (commonCode == null) {
             throw new NullPointerException("공통코드가 존재하지 않습니다.");
         }
@@ -79,7 +79,7 @@ public class CommonCodeService {
      * @param commonCode
      * @return
      */
-    public int insertCommonCode(CommonCode commonCode) {
+    public int insertCommonCode(Code commonCode) {
         if (commonCode == null) {
             throw new NullPointerException("등록할 정보를 확인해주세요.");
         }
@@ -110,7 +110,7 @@ public class CommonCodeService {
      * @param commonCode
      * @return
      */
-    public int updateCommonCode(CommonCode commonCode) {
+    public int updateCommonCode(Code commonCode) {
         if (commonCode == null) {
             throw new NullPointerException("수정할 정보를 확인해주세요.");
         }

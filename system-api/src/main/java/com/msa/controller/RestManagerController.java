@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.msa.model.Manager;
+import com.msa.model.Admin;
 import com.msa.model.Result;
 import com.msa.service.ManagerService;
 
@@ -30,7 +30,7 @@ public class RestManagerController {
         if (authInfo == null) {
             throw new IllegalAccessException("조회 권한이 없습니다.");
         }
-        List<Manager> list = this.managerService.selectManagerList();
+        List<Admin> list = this.managerService.selectManagerList();
         return new Result(list);
     }
 

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.msa.model.CommonCode;
+import com.msa.model.AuthInfo;
+import com.msa.model.Code;
 import com.msa.model.CommonCodeSearch;
 import com.msa.model.Result;
 import com.msa.service.CommonCodeService;
@@ -52,13 +53,12 @@ public class RestCommonCodeController {
 
     /**
      * 공통코드 등록
-     * argumentResolver에서 authInfo 정보..세ㅣㅇ...
      * @param commonCode
      * @return
      */
     @PostMapping("/")
-    public Result createCode(CommonCode commonCode) {
-        log.info("RestCommonCodeController.createCode: {}", commonCode);
+    public Result createCode(AuthInfo authInfo, Code commonCode) {
+        log.info("RestCommonCodeController.createCode: {}, {}", authInfo, commonCode);
         return new Result(this.commonCodeService.insertCommonCode(commonCode));
     }
 
@@ -68,7 +68,7 @@ public class RestCommonCodeController {
      * @return
      */
     @PutMapping("/")
-    public Result updateCode(CommonCode commonCode) {
+    public Result updateCode(Code commonCode) {
         log.info("RestCommonCodeController.updateCode: {}", commonCode);
         return new Result(this.commonCodeService.updateCommonCode(commonCode));
     }

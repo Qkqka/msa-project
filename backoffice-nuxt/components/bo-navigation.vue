@@ -1,5 +1,5 @@
 <template>
-    <h1>이건 nav</h1>
+    <!-- <h1>이건 nav</h1> -->
     <div style="border: 1px solid blue">
         <nav>
             <ul>

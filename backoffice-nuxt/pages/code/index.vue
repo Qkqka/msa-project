@@ -1,41 +1,23 @@
-<script setup>
-const { data: codeList } = await useFetch(
-    "/sys/code/list",
-    {
-        server: false,
-    }
-    // {
-    //     method: "post",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         rowCount: 30,
-    //         currentPage: 1,
-    //     }),
-    // }
-);
-console.log(codeList);
-</script>
-
 <template>
-    <div id="codeList" style="border: 1px solid black">
-        <table>
+    <v-table fixed-header height="500px" density="compact">
+        <thead>
             <tr>
-                <th>index</th>
-                <th>codeGrp</th>
-                <th>code</th>
-                <th>codeNm</th>
-                <th>codeVal1</th>
-                <th>useYn</th>
-                <th>dispNo</th>
-                <th>regDt</th>
-                <th>regSeq</th>
-                <th>modDt</th>
-                <th>modSeq</th>
+                <th class="text-left">index</th>
+                <th class="text-left">codeGrp</th>
+                <th class="text-left">code</th>
+                <th class="text-left">codeNm</th>
+                <th class="text-left">codeVal1</th>
+                <th class="text-left">useYn</th>
+                <th class="text-left">dispNo</th>
+                <th class="text-left">regDt</th>
+                <th class="text-left">regSeq</th>
+                <th class="text-left">modDt</th>
+                <th class="text-left">modSeq</th>
             </tr>
+        </thead>
+        <tbody>
             <tr v-for="(code, i) in codeList">
-                <td v-text="i"></td>
+                <td v-text="i + 1"></td>
                 <td v-text="code.codeGrp"></td>
                 <td v-text="code.code"></td>
                 <td v-text="code.codeNm"></td>
@@ -47,6 +29,41 @@ console.log(codeList);
                 <td v-text="code.modDt"></td>
                 <td v-text="code.modSeq"></td>
             </tr>
-        </table>
+        </tbody>
+    </v-table>
+    <div class="text-center">
+        <v-pagination
+            v-model="pageParam.page"
+            :total-visible="5"
+            :length="pageParam.totalPage"
+            >1</v-pagination
+        >
+        <v-btn @click="getCodeList()"></v-btn>
     </div>
 </template>
+
+<script setup>
+import { ref } from "vue";
+const codeList = ref([]);
+const pageParam = ref({
+    page: 1,
+    startPage: 1,
+    totalPage: 0,
+    rowCount: 30,
+});
+
+function getCodeList(page) {
+    console.log("뭐뭐뭐ㅝ" + page);
+    const d = useFetch("sys/code/list", {
+        server: false,
+        initialCache: false,
+    }).then((res) => {
+        this.codeList = res.data.value.resultData.data;
+
+        if (this.codeList != null && this.codeList.length != 0) {
+            this.pageParam.totalPage =
+                this.codeList[0].totalCount / this.pageParam.rowCount;
+        }
+    });
+}
+</script>

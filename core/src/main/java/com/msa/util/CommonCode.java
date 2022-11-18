@@ -1,6 +1,9 @@
 package com.msa.util;
 
-public interface CommonCode {
+import lombok.Getter;
 
-    String LOGIN_SESSION = "authInfo";
+@Getter
+public class CommonCode {
+
+    public static final String LOGIN_SESSION = "authInfo";
 }

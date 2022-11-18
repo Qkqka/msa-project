@@ -28,7 +28,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             // 로그인 성공 후 다시 원래의 목적지로 갈 수 있게 prev 정보 저장
 //            response.sendRedirect(request.getContextPath() + "login?prev=" + request.getServletPath());
             log.debug("request.getServletPath: {}", request.getServletPath());
-            response.sendRedirect("http://back-office.com/login?prev=" + request.getServletPath());
+//            response.sendRedirect("http://back-office.com/login?prev=" + request.getServletPath());
             return false;
         }
     }

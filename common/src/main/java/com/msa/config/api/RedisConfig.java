@@ -1,4 +1,4 @@
-package com.msa.config;
+package com.msa.config.api;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

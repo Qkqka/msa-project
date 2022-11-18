@@ -11,6 +11,10 @@ import com.msa.util.Sha512;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 인증 service
+ * @author fnfnksb@gmail.com
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -18,7 +22,14 @@ public class AuthService {
 
     private final AuthReaderMapper authReaderMapper;
 
+    /**
+     * 관리자 정보 조회
+     * @param id
+     * @param password
+     * @return
+     */
     public AuthInfo selectAdminInfo(String id, String password) {
+        log.info("AuthService.selectAdminInfo: {}", id);
         CommonUtil.checkParam();
 
         // 필수값 체크

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class CommonCode extends BaseModel {
+public class Code extends BaseModel {
     /**
      * 
      */

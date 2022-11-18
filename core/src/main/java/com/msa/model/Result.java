@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 //@RequiredArgsConstructor // final이나 @NonNull인 필드 값만 파라미터로 받는 생성자 만듦
 public class Result {
 
-    private int resultCode;
+    private int resultCode = 200;
 
     private Map<String, Object> resultData;
 

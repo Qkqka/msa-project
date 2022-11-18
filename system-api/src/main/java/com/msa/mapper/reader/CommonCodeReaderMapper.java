@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.msa.annotation.ReaderMapper;
-import com.msa.model.CommonCode;
+import com.msa.model.Code;
 import com.msa.model.CommonCodeList;
 import com.msa.model.CommonCodeSearch;
 
@@ -21,6 +21,6 @@ public interface CommonCodeReaderMapper {
 
     int selectCodeListCount(CommonCodeSearch param);
 
-    CommonCode selectCode(@Param("codeGrp") String codeGrp, @Param("code") String code);
+    Code selectCode(@Param("codeGrp") String codeGrp, @Param("code") String code);
 
 }

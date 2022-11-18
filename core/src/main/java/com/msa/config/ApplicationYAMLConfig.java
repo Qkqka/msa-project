@@ -13,7 +13,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "application")
 public class ApplicationYAMLConfig {
 
-    private String name;
+    // GATEWAY========================================
 
     private Auth auth = new Auth();
 
@@ -33,5 +33,21 @@ public class ApplicationYAMLConfig {
             private String accessKey;
             private String accessValue;
         }
+    }
+
+    // API 서버========================================
+
+    private Greeting greeting = new Greeting();
+
+    private Session session = new Session();
+
+    @Getter @Setter
+    public class Greeting {
+        private String message;
+    }
+
+    @Getter @Setter
+    public class Session {
+        private String key;
     }
 }

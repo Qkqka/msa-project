@@ -1,5 +1,8 @@
 server:
   port: 0 # 8300
+  servlet:
+    session:
+      timeout: 1800 # 세션 기본값 30분
 
 spring:
   application:
@@ -27,9 +30,19 @@ eureka:
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
 
-greeting:
-  message: Welcome to the Product API
-
 logging:
   level:
-    com.msa: DEBUG
+    root: INFO
+    '[com.msa]': DEBUG
+
+
+
+
+
+
+
+application:
+  greeting:
+    message: Welcome to the Product API
+  session:
+    key: ENC(GelowYQKuXn/CPQ8ihK9Rxm2LZEMdN/M)

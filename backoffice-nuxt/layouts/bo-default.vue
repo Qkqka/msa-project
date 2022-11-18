@@ -1,9 +1,9 @@
 <template>
     <div style="border: 1px solid black">
-        <boHeader />
-        <boNavigation />
+        <!-- <boHeader /> -->
+        <BoNavigation />
         <!-- nuxtPage태그랑 역할 비슷 -->
         <slot />
-        <boFooter />
+        <!-- <boFooter /> -->
     </div>
 </template>

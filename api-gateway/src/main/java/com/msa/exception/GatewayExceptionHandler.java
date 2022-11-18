@@ -1,10 +1,9 @@
 package com.msa.exception;
 
-import java.util.Map;
+import java.net.URI;
 
 import org.springframework.boot.autoconfigure.web.WebProperties.Resources;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
-import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
@@ -36,7 +35,7 @@ public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
 
     public GatewayExceptionHandler(ErrorAttributes errorAttributes, Resources resources, ApplicationContext applicationContext, ServerCodecConfigurer configurer) {
         super(errorAttributes, resources, applicationContext);
-        this.setMessageReaders(configurer.getReaders());
+        //this.setMessageReaders(configurer.getReaders());
         this.setMessageWriters(configurer.getWriters());
     }
 
@@ -46,21 +45,29 @@ public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
     }
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-       Map<String, Object> map = getErrorAttributes(request, ErrorAttributeOptions.defaults());
+       //Map<String, Object> map = getErrorAttributes(request, ErrorAttributeOptions.defaults());
        Throwable throwable = super.getError(request);
+
        Result result = null;
 
+       log.info("request.url : {}, {}, {}", request.path(), request.uri(), request.requestPath());
+       log.error("GatewayExceptionHandler.throwable", throwable);
+
        if (throwable instanceof AdminAuthException) {
+           log.info("사용자 정의 exception : {}", throwable.getClass().getName());
            AdminAuthException ex = (AdminAuthException) getError(request);
 
-           result = new Result(ex.getResultCode(), ex.getResultMsg());
+           if (ex.getResultCode() == -1) {
+               return ServerResponse.temporaryRedirect(URI.create("/login?redirectUrl=" + request.path())).build();
+           }
+
+           return ServerResponse.temporaryRedirect(URI.create("/")).build();
+
        } else {
            log.info("사용자 정의 exception 아님");
-           result = new Result();
+           result = new Result(4444, throwable.getMessage());
        }
 
-       log.error("GatewayExceptionHandler", throwable);
-//       return ServerResponse.temporaryRedirect(URI.create("/")).build(); // 로그인페이지로 이동됨. 근데 데이터 세팅 어떡함?.
        return ServerResponse.status(HttpStatus.BAD_REQUEST)
               .contentType(MediaType.APPLICATION_JSON)
               .body(BodyInserters.fromValue(result));

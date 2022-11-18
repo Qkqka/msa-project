@@ -19,6 +19,10 @@ import com.msa.model.Result;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 게이트웨이 인증 필터
+ * @author fnfnksb@gmail.com
+ */
 @Slf4j
 @Component
 public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<BackofficeAuthFilter.Config> {
@@ -50,6 +54,8 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
             // checkUrl 체크
             boolean isAdminCheck = true;
 
+            log.info("url: {}", url);
+            log.info("adminExceptUrlList: {}", this.adminExceptUrlList);
             if (!CollectionUtils.isEmpty(this.adminExceptUrlList)) {
                 // url의 정확한 매칭 체크
                 isAdminCheck = this.adminExceptUrlList.stream().anyMatch(chkUrl -> StringUtils.equals(url, chkUrl)) ? false : true;
@@ -72,8 +78,9 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                 // 헤더 정보
                 HttpHeaders headers = request.getHeaders();
 
-                // 요청 url -> try~catch로 감싼이유
+                // 요청 url -> try~catch로 감싼이유?
                 String api = request.getPath().value();
+                log.info("api : {}", api);
 
                 // 관리자 체크 로직 필요한 경우와 그냥 통과하는 부분을 구분해서 처리함.
                 WebClient wc = WebClient.builder()
@@ -95,7 +102,12 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                         .retrieve()
                         .bodyToMono(Result.class)
                         .map(result -> {
+                            // 로그인체크
                             if (result.getResultCode() == -1) {
+                                throw new AdminAuthException(result.getResultCode(), result.getResultMsg());
+
+                            // 권한체크
+                            } else if (result.getResultCode() == -2) {
                                 throw new AdminAuthException(result.getResultCode(), result.getResultMsg());
                             }
 

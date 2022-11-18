@@ -72,7 +72,7 @@
         작성자: fnfnksb@gmail.com
         작성일: 2022.11.17
     -->
-    <select id="selectCode" resultType="CommonCode">
+    <select id="selectCode" resultType="Code">
         /* CommonCodeReaderMapper.selectCode */
         SELECT 
             c.code_grp,

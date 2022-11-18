@@ -105,9 +105,8 @@ logging:
 #      show-details: always  # actuator에서 상세한 정보들을 확인하기 위해 설정
 
 application:
-  name: ${spring.application.name}
   auth:
-    admin-except-url-list: /auth/login/, /auth/health_check
+    admin-except-url-list: /, /auth/login*, /auth/health_check*
   web:
     back:
       access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)

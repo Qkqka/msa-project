@@ -2,7 +2,7 @@
 css파일을 적용하고 싶다면 app.vue에 적용해도 됨 */
 <template>
     <div class="text-lg" style="border: 1px solid black">
-        <h1>BACKOFFICE - NUXT</h1>
+        <!-- <h1>BACKOFFICE - NUXT</h1> -->
         <!-- layouts/ 폴더 -->
         <NuxtLayout :name="layout">
             <!-- pages/ 폴더 -->
