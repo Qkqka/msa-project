@@ -37,6 +37,9 @@ public class CommonCodeService {
      * @return
      */
     public List<CommonCodeList> selectCodeList(CommonCodeSearch param) {
+        // 테스트용
+        param.setPaging(false);
+
         // 목록 개수 조회
         int totalCount = this.commonCodeReaderMapper.selectCodeListCount(param);
 
