@@ -10,6 +10,7 @@ import com.msa.config.ApplicationYAMLConfig;
 import com.msa.model.AuthInfo;
 import com.msa.model.Result;
 import com.msa.service.AuthService;
+import com.msa.util.CommonController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor // @inject, @autowired
-public class RestAuthController extends BaseController {
+public class RestAuthController extends CommonController {
 
     // @inject
     private final Environment env;

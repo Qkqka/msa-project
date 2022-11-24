@@ -47,15 +47,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
 const id = ref("");
 const password = ref("");
 const show1 = ref(false);
 
-function login() {
+async function login() {
     console.log(id.value, password.value);
-    const d = useFetch("/auth/login", {
+    const d = await useFetch("/auth/login", {
         method: "get",
         params: {
             id: id.value,
@@ -67,8 +65,8 @@ function login() {
     console.log(d);
 }
 
-function logout() {
-    const d = useFetch("/auth/logout", {
+async function logout() {
+    const d = await useFetch("/auth/logout", {
         method: "get",
         server: false,
         initialCache: false,

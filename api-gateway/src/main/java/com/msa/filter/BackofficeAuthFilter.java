@@ -96,7 +96,7 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                                 header.addAll("Cookie", headers.get("Cookie"));
                             }
 
-                            // 엑세스토큰 설정
+                            // 엑세스토큰 설정 => redirectUrl 에 대한 서버들의 엑세스토큰 설정 이걸할려면 권한체크도 필요함
                             header.add(accessKey, accessValue);
                         })
                         .retrieve()

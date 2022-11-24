@@ -1,5 +1,7 @@
 package com.msa.config.api;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,41 +12,45 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.msa.annotation.ReaderMapper;
+import com.zaxxer.hikari.HikariDataSource;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 커넥션 풀의 커넥션을 관리하기 위한 객체
- * 이 객체를 통해 커넥션을 획득 반납 등의 작업을 한다.
- * https://insanelysimple.tistory.com/317
- * 
  * @author fnfnksb@gmail.com
  */
+@Slf4j
 @Configuration
-@MapperScan(basePackages = "com.msa.mapper.reader", sqlSessionFactoryRef = "readerSqlSessionFactory", annotationClass = ReaderMapper.class) // *Mapper.java 파일 경로
+@MapperScan(basePackages = "com.msa.mapper.reader", sqlSessionFactoryRef = "readerSqlSessionFactory", annotationClass = ReaderMapper.class)
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ReaderDataSourceConfig {
 
     @Bean(name = "readerDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    @ConfigurationProperties(prefix = "application.datasource.reader")
     public DataSource readerDataSource() {
-        return DataSourceBuilder.create().build();
+        HikariDataSource hikari = new HikariDataSource();
+        hikari.setPoolName("HikariPool-READER"); // 로그에서 구분하기 위함 (테스트용도)
+        hikari.setConnectionTimeout(SECONDS.toMillis(30)); 
+        hikari.setMaximumPoolSize(10); 
+        hikari.setMinimumIdle(10);
+        return hikari;
     }
 
     @Bean("readerSqlSessionFactory")
     public SqlSessionFactory readerSqlSessionFactory(@Qualifier("readerDataSource") DataSource readerDataSource, ApplicationContext applcationconContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(readerDataSource);
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa.model"); // mapper에서 사용할 도메인 패키지
-        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/reader/*.xml")); // xml 파일 경로
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.msa..model");
+        sqlSessionFactoryBean.setMapperLocations(applcationconContext.getResources("classpath:mapper/reader/*.xml"));
 
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
         org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
-        configuration.setMapUnderscoreToCamelCase(true); // camel case 자동 매핑
+        configuration.setMapUnderscoreToCamelCase(true);
 
         return sqlSessionFactory;
     }

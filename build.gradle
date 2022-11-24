@@ -37,10 +37,20 @@ subprojects {
         set('springCloudVersion', "2021.0.4")
     }
 
+    configurations {
+        all {
+            //logback과의 충돌 방지
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        }
+    }
+
     dependencies {
         // lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
+
+        // log4j2
+        implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
         // spring boot starter
         implementation 'org.springframework.boot:spring-boot-starter'
@@ -70,7 +80,6 @@ project(':common') {
         implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
         // mysql
         runtimeOnly 'com.mysql:mysql-connector-j'
-
         // aop
         implementation 'org.springframework.boot:spring-boot-starter-aop'
     }
@@ -164,6 +173,9 @@ configure(subprojects.findAll{ it.name.endsWith('-api') }) {
 
         // validation @Valid..
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        // log4jdbc(sql 쿼리 로그) : https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1
+        implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     }
 }
 

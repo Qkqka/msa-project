@@ -45,7 +45,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 const codeList = ref([]);
 const pageParam = ref({
     page: 1,

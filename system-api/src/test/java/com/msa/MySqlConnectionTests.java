@@ -10,16 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MySqlConnectionTests {
 
-    @Value("${spring.datasource.driver-class-name}")
+    @Value("${application.datasource.writer.driver-class-name}")
     private String driver;
 
-    @Value("${spring.datasource.url}")
+    @Value("${application.datasource.writer.jdbc-url}")
     private String url;
 
-    @Value("${spring.datasource.username}")
+    @Value("${application.datasource.writer.username}")
     private String username;
 
-    @Value("${spring.datasource.password}")
+    @Value("${application.datasource.writer.password}")
     private String password;
 
     @Test

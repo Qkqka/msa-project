@@ -58,6 +58,9 @@ public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
            AdminAuthException ex = (AdminAuthException) getError(request);
 
            if (ex.getResultCode() == -1) {
+//               return ServerResponse.status(HttpStatus.BAD_REQUEST)
+//                       .contentType(MediaType.APPLICATION_JSON)
+//                       .body(BodyInserters.fromValue(result)); // 이런식으로 하기
                return ServerResponse.temporaryRedirect(URI.create("/login?redirectUrl=" + request.path())).build();
            }
 

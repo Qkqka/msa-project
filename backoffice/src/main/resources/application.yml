@@ -23,15 +23,16 @@ spring:
 
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}} # random port 지정 시 서비스 구분하기 위해 각각의 서비스에 instance-id로 구분하는 방법
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
   client:
-    register-with-eureka: true        # eureka 서비스 등록 여부
-    fetch-registry: true              # 
-#    registry-fetch-interval-seconds: 15  # eureka에게 서비스 정보를 가져오는 주기
-    disable-delta: true               # eureka에게 서비스 정보를 가져올때 변경된 내용만 가져온다. (false로 하면 전체를 가져오기에 대역폭 낭비)
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 3
+    disable-delta: true
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
 
 logging:
   level:
-    com.msa: TRACE
+    root: INFO
+    '[com.msa]': TRACE
