@@ -83,14 +83,16 @@ eureka:
   client:
     register-with-eureka: true          # eureka 서비스 등록 여부
     fetch-registry: true                # 
-    registry-fetch-interval-seconds: 3  # 서비스 목록 3초마다 캐싱  
+    registry-fetch-interval-seconds: 15  # 서비스 목록 3초마다 캐싱  
     disable-delta: true                 # 캐싱시 변경된 부분만 업데이트할 지 여부 (false로 하면 전체를 가져오기에 대역폭 낭비)
     service-url:
       defaultZone: http://admin:admin123@localhost:9000/eureka/
 
 logging:
   level:
-    com.msa: DEBUG
+    root: INFO
+    '[com.msa]': DEBUG
+#    '[com.netflix.discovery.DiscoveryClient]': WARN
 
 ## actuator
 #management:
@@ -106,7 +108,7 @@ logging:
 
 application:
   auth:
-    admin-except-url-list: /, /auth/login*, /auth/health_check*
+    admin-except-url-list: /auth/login*, /auth/health_check*
   web:
     back: # 다 똑같이..? 아님 각각?
       access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)

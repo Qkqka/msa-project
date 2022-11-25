@@ -5,6 +5,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -51,6 +52,9 @@ public class ReaderDataSourceConfig {
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
         org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
         configuration.setMapUnderscoreToCamelCase(true);
+        configuration.setUseGeneratedKeys(false);
+        configuration.setJdbcTypeForNull(JdbcType.VARCHAR);
+        configuration.setDefaultStatementTimeout(30);
 
         return sqlSessionFactory;
     }

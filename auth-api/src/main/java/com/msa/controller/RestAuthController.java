@@ -1,5 +1,6 @@
 package com.msa.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.msa.config.ApplicationYAMLConfig;
+import com.msa.exception.CustomException;
 import com.msa.model.AuthInfo;
 import com.msa.model.Result;
 import com.msa.service.AuthService;
@@ -60,6 +62,15 @@ public class RestAuthController extends CommonController {
     public Result login(@RequestParam("id") String id, @RequestParam("password") String password) {
         log.info("RestAuthController.login id: {}");
 
+        // 필수값 체크
+        if (StringUtils.isBlank(id)) {
+            throw new CustomException(45450, "id를 입력해주세요.");
+        }
+
+        if (StringUtils.isBlank(password)) {
+            throw new CustomException(40900, "password를 입력해주세요.");
+        }
+
         // 관리자정보 조회
         AuthInfo userInfo = authService.selectAdminInfo(id, password);
         if (userInfo == null) {
@@ -91,7 +102,7 @@ public class RestAuthController extends CommonController {
      */
     @GetMapping("/check")
     public Result authCheck(String api) {
-        log.debug("RestAuthController.authCheck");
+        log.debug("RestAuthController.authCheck: {}", super.getSession(this.applicationYAMLConfig.getSession().getKey()));
 
         // 로그인 체크
         if (super.getSession(this.applicationYAMLConfig.getSession().getKey()) == null) {

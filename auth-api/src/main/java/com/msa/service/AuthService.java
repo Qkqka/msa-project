@@ -30,7 +30,7 @@ public class AuthService {
      */
     public AuthInfo selectAdminInfo(String id, String password) {
         log.info("AuthService.selectAdminInfo: {}", id);
-        CommonUtil.checkParam();
+        //CommonUtil.checkParam();
 
         // 필수값 체크
         if (StringUtils.isBlank(id)) {

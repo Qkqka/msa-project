@@ -67,7 +67,7 @@ public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
            return ServerResponse.temporaryRedirect(URI.create("/")).build();
 
        } else {
-           log.info("사용자 정의 exception 아님");
+           log.info("사용자 정의 exception 아님 : {}", throwable.getClass().getName());
            result = new Result(4444, throwable.getMessage());
        }
 

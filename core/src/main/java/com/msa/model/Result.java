@@ -3,6 +3,8 @@ package com.msa.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +24,7 @@ public class Result extends BaseModel {
 
     private static final long serialVersionUID = -3277807226139433637L;
 
-    private int resultCode = 200;
+    private int resultCode = HttpStatus.OK.value();
 
     private Map<String, Object> resultData;
 
@@ -68,5 +70,10 @@ public class Result extends BaseModel {
 
         this.resultMsg = resultMsg;
         this.resultData = map;
+    }
+
+    public Result(int errorCode, Exception e) {
+        this.resultCode = errorCode;
+        this.resultMsg = e.getMessage();
     }
 }

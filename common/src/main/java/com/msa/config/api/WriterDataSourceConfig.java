@@ -5,6 +5,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -89,9 +90,8 @@ public class WriterDataSourceConfig {
         org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
         configuration.setMapUnderscoreToCamelCase(true); // camel case 자동 매핑.
         configuration.setUseGeneratedKeys(false); // insert 시 pk를 bean으로 반환 => 실무에선 false
-//        configuration.setJdbcTypeForNull(JdbcType.VARCHAR);
-        // timeout 설정
-        configuration.setDefaultStatementTimeout(10);
+        configuration.setJdbcTypeForNull(JdbcType.VARCHAR); // parameter가 null일 경우 처리
+        configuration.setDefaultStatementTimeout(30); // 모든 쿼리에 대한 timeout 지정 30초
 
         return sqlSessionFactory;
     }
@@ -120,6 +120,7 @@ public class WriterDataSourceConfig {
     @Bean("writerTransactionManager")
     public TransactionManager writeTransactionManager(@Qualifier("writerDataSource") DataSource writerDataSource) {
         DataSourceTransactionManager txManager = new DataSourceTransactionManager(writerDataSource);
+//        txManager.setNestedTransactionAllowed(true); // 중첩 transaction 허용 여부
         return txManager;
     }
 }

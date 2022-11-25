@@ -65,7 +65,7 @@ public class TransactionConfig {
 //         txMethods.put("delete*", writeTxAttr);
 //         nameTxAttrSource.setNameMap(txMethods);
 
-         return new TransactionInterceptor(transactionManager, nameTxAttrSource);
+         return new TransactionInterceptor(this.transactionManager, nameTxAttrSource);
     }
 
     /**
