@@ -83,9 +83,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/*.css", "/**/*.js");
         // 세션에서 로그인 체크하기 위한 HandlerInterceptor 설정
-        registry.addInterceptor(sessionInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/**/login");
+//        registry.addInterceptor(sessionInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/**/login");
     }
 
     @Override

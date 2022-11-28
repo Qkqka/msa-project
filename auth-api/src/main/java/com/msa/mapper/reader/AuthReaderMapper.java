@@ -1,9 +1,12 @@
 package com.msa.mapper.reader;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.msa.annotation.ReaderMapper;
-import com.msa.model.AuthInfo;
+import com.msa.model.Admin;
+import com.msa.model.AdminMenu;
 
 /**
  * 인증 reader mapper
@@ -12,6 +15,8 @@ import com.msa.model.AuthInfo;
 @ReaderMapper
 public interface AuthReaderMapper {
 
-    AuthInfo selectAdminInfo(@Param("id") String id);
+    Admin selectAdminInfo(@Param("id") String id);
+
+    List<AdminMenu> selectAdminMenuList(long adminSeq);
 
 }

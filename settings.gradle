@@ -16,4 +16,4 @@ include('auth-api')         // 인증, 권한체크
 include('system-api')       // 공통코드, 관리자정보 ...
 include('product-api')      // 상품
 include('backoffice')       // 관리자 front
-include('backoffice-nuxt')  // 관리자 front nuxt
+//include('backoffice-nuxt')  // 관리자 front nuxt

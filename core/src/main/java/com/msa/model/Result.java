@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 만듦
 //@RequiredArgsConstructor // final이나 @NonNull인 필드 값만 파라미터로 받는 생성자 만듦
 @EqualsAndHashCode(callSuper = false)
-public class Result extends BaseModel {
+public class Result extends CommonModel {
 
     private static final long serialVersionUID = -3277807226139433637L;
 

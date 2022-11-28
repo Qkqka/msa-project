@@ -25,9 +25,9 @@ public class RestManagerController {
 
     @GetMapping("/list")
     public Result getManagerList(HttpSession session) throws IllegalAccessException {
-        Object authInfo = session.getAttribute("authInfo");
-        log.info("session.authInfo: {}", authInfo);
-        if (authInfo == null) {
+        Object adminInfo = session.getAttribute("adminInfo");
+        log.info("session.adminInfo: {}", adminInfo);
+        if (adminInfo == null) {
             throw new IllegalAccessException("조회 권한이 없습니다.");
         }
         List<Admin> list = this.managerService.selectManagerList();

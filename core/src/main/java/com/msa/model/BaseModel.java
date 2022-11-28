@@ -1,15 +1,32 @@
 package com.msa.model;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import lombok.ToString;
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class BaseModel extends CommonModel {
 
-@ToString
-public class BaseModel implements Serializable {
+    private static final long serialVersionUID = -1340647457878045899L;
 
     /**
-     * 
+     * 등록일시
      */
-    private static final long serialVersionUID = 7475042385450548688L;
+    private String regDt;
+
+    /**
+     * 수정일시
+     */
+    private String modDt;
+
+    /**
+     * 등록자
+     */
+    private long regSeq;
+
+    /**
+     * 수정자
+     */
+    private long modSeq;
 
 }

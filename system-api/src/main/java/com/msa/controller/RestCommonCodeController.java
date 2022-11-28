@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.msa.model.AuthInfo;
+import com.msa.model.AdminInfo;
 import com.msa.model.Code;
 import com.msa.model.CommonCodeSearch;
 import com.msa.model.Result;
@@ -57,8 +57,8 @@ public class RestCommonCodeController {
      * @return
      */
     @PostMapping("/")
-    public Result createCode(AuthInfo authInfo, Code commonCode) {
-        log.info("RestCommonCodeController.createCode: {}, {}", authInfo, commonCode);
+    public Result createCode(AdminInfo adminInfo, Code commonCode) {
+        log.info("RestCommonCodeController.createCode: {}, {}", adminInfo, commonCode);
         return new Result(this.commonCodeService.insertCommonCode(commonCode));
     }
 

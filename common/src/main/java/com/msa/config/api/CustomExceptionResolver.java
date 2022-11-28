@@ -50,7 +50,7 @@ public class CustomExceptionResolver extends AbstractHandlerExceptionResolver {
             result = new Result(HttpStatus.BAD_REQUEST.value());
         }
 
-        log.error("CustomExceptionResolver.Result:  {}", result);
+        log.error("CustomExceptionResolver.Result: {}", result);
 
         ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
         mv.addObject("data", result);

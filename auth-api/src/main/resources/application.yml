@@ -61,7 +61,7 @@ application:
   greeting:
     message: Welcome to the AUTH API
   session:
-    key: ENC(GelowYQKuXn/CPQ8ihK9Rxm2LZEMdN/M)
+    key: ENC(XPWx2KKuHOBPZRKDavuJVbTRQH38Wfj7)
   datasource:
     writer:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy # MySQL 설정 : com.mysql.cj.jdbc.Driver

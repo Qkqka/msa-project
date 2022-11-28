@@ -1,4 +1,4 @@
-package com.msa.util;
+package com.msa.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +19,7 @@ public class CommonController {
      * @return
      */
     public Object getSession(String key) {
-        log.debug("BaseController.getSession: {}", key);
+        log.debug("CommonController.getSession: {}", key);
 
         HttpSession session = request.getSession(false);
 
@@ -36,13 +36,13 @@ public class CommonController {
      * - 세션이 있으면 세션 반환, 없으면 신규 세션 생성
      * 
      * @param key
-     * @param authInfo
+     * @param adminInfo
      */
-    public void setSession(String key, Object authInfo) {
-        log.debug("BaseController.setSession: {}", key);
+    public void setSession(String key, Object adminInfo) {
+        log.debug("CommonController.setSession: {}", key);
 
         HttpSession session = request.getSession();
-        session.setAttribute(key, authInfo);
+        session.setAttribute(key, adminInfo);
         session.setMaxInactiveInterval(60*5); // 5분
     }
 
@@ -52,7 +52,7 @@ public class CommonController {
      * @return
      */
     public boolean removeSession(String key) {
-        log.debug("BaseController.removeSession: {}", key);
+        log.debug("CommonController.removeSession: {}", key);
 
         if (this.getSession(key) == null) {
             return false;

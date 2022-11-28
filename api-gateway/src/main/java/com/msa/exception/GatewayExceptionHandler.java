@@ -51,20 +51,29 @@ public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
        Result result = null;
 
        log.info("request.url : {}, {}, {}", request.path(), request.uri(), request.requestPath());
+       log.info("request.headers : {}, {}, {}", request.headers(), request.headers().contentType(), request.headers().accept());
        log.error("GatewayExceptionHandler.throwable", throwable);
 
        if (throwable instanceof AdminAuthException) {
            log.info("사용자 정의 exception : {}", throwable.getClass().getName());
            AdminAuthException ex = (AdminAuthException) getError(request);
 
-           if (ex.getResultCode() == -1) {
-//               return ServerResponse.status(HttpStatus.BAD_REQUEST)
-//                       .contentType(MediaType.APPLICATION_JSON)
-//                       .body(BodyInserters.fromValue(result)); // 이런식으로 하기
-               return ServerResponse.temporaryRedirect(URI.create("/login?redirectUrl=" + request.path())).build();
-           }
+           MediaType requestAccept = request.headers().accept().stream().filter(type -> type.equals(MediaType.APPLICATION_JSON)).findFirst().orElse(null);
 
-           return ServerResponse.temporaryRedirect(URI.create("/")).build();
+           if (requestAccept == null) {
+               if (ex.getResultCode() == -1) {
+                   return ServerResponse.temporaryRedirect(URI.create("/login?redirectUrl=" + request.path())).build();
+               }
+
+               return ServerResponse.temporaryRedirect(URI.create("/")).build();
+
+           // api 요청이면 Result객체 반환
+           } else {
+               result = new Result(ex.getResultCode(), throwable.getMessage());
+               return ServerResponse.status(HttpStatus.BAD_REQUEST)
+                       .contentType(MediaType.APPLICATION_JSON)
+                       .body(BodyInserters.fromValue(result));
+           }
 
        } else {
            log.info("사용자 정의 exception 아님 : {}", throwable.getClass().getName());

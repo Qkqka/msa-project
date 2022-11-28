@@ -7,16 +7,18 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="login">
+    <div id="login" th:if="!${session.authInfo}">
       <label for="id"></label><input type="text" id="id" placeholder="id" />
       <input type="password" id="password" placeholder="password" />
       <button onclick="login()">로그인</button>
     </div>
-    <div id="logout">
-      <button onclick="logout()">로그아웃</button>
+    <div id="logout" th:if="${session.authInfo}">
+        <span th:text="${session.authInfo.adminId}"></span>님 안녕하세요.<br/><br/>
+        <button onclick="logout()">로그아웃</button>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+
       // get/post, URL패턴 확인 (EX.비밀번호확인창 등)
       function login() {
         axios
@@ -28,6 +30,14 @@
           })
           .then((res) => {
             console.log(res);
+            let params = new URLSearchParams(location.search);
+            let redirectUrl = params != null ? params.get('redirectUrl') : null;
+
+            if (redirectUrl == null) {
+                return location.reload();
+            }
+
+            location.href = redirectUrl;
           });
       }
 
@@ -36,6 +46,7 @@
           .get("/auth/logout")
           .then((res) => {
             console.log(res);
+            location.reload();
           });
       }
     </script>

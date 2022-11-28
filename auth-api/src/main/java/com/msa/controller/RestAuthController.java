@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.msa.config.ApplicationYAMLConfig;
-import com.msa.exception.CustomException;
-import com.msa.model.AuthInfo;
+import com.msa.model.AdminInfo;
 import com.msa.model.Result;
 import com.msa.service.AuthService;
-import com.msa.util.CommonController;
+import com.msa.util.CommonUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,19 +59,13 @@ public class RestAuthController extends CommonController {
      */
     @GetMapping("/login")
     public Result login(@RequestParam("id") String id, @RequestParam("password") String password) {
-        log.info("RestAuthController.login id: {}");
+        log.info("RestAuthController.login id: {}", id);
 
         // 필수값 체크
-        if (StringUtils.isBlank(id)) {
-            throw new CustomException(45450, "id를 입력해주세요.");
-        }
-
-        if (StringUtils.isBlank(password)) {
-            throw new CustomException(40900, "password를 입력해주세요.");
-        }
+        CommonUtil.checkParam(id, password);
 
         // 관리자정보 조회
-        AuthInfo userInfo = authService.selectAdminInfo(id, password);
+        AdminInfo userInfo = authService.selectAdminInfo(id, password);
         if (userInfo == null) {
             return new Result();
         }
@@ -104,15 +97,17 @@ public class RestAuthController extends CommonController {
     public Result authCheck(String api) {
         log.debug("RestAuthController.authCheck: {}", super.getSession(this.applicationYAMLConfig.getSession().getKey()));
 
+        AdminInfo adminInfo = (AdminInfo) super.getSession(this.applicationYAMLConfig.getSession().getKey());
+
         // 로그인 체크
-        if (super.getSession(this.applicationYAMLConfig.getSession().getKey()) == null) {
+        if (adminInfo == null) {
             return new Result(-1, "로그인해주세요.");
         }
 
         // 권한 체크 api
-//        if (true) {
-//            return new Result(-2);
-//        }
+        if (!adminInfo.getAdminMenuList().stream().anyMatch(adminMenu -> StringUtils.equals(adminMenu.getMenuUrl(), api))) {
+            return new Result(-2, "해당 메뉴에 접근 권한이 없습니다.");
+        }
 
         return new Result();
     }

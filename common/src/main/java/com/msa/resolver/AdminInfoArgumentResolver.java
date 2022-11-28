@@ -12,18 +12,18 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.msa.config.ApplicationYAMLConfig;
 import com.msa.exception.AdminAuthException;
-import com.msa.model.AuthInfo;
+import com.msa.model.AdminInfo;
 
 import lombok.RequiredArgsConstructor;
 
 /**
- * AuthInfo Argument Resolver
+ * AdminInfo Argument Resolver
  * 
  * @author fnfnksb@gmail.com
  */
 @Component
 @RequiredArgsConstructor
-public class AuthInfoArgumentResolver implements HandlerMethodArgumentResolver {
+public class AdminInfoArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final ApplicationYAMLConfig applicationYAMLConfig;
 
@@ -35,7 +35,7 @@ public class AuthInfoArgumentResolver implements HandlerMethodArgumentResolver {
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(AuthInfo.class);
+        return parameter.getParameterType().equals(AdminInfo.class);
     }
 
     /**
@@ -56,12 +56,12 @@ public class AuthInfoArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession();
 
-        AuthInfo authInfo = (AuthInfo) session.getAttribute(this.applicationYAMLConfig.getSession().getKey());
-        if (authInfo == null) {
+        AdminInfo adminInfo = (AdminInfo) session.getAttribute(this.applicationYAMLConfig.getSession().getKey());
+        if (adminInfo == null) {
             throw new AdminAuthException(-1, "로그인해 주세요.");
         }
 
-        return authInfo;
+        return adminInfo;
     }
 
 }

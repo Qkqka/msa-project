@@ -1,10 +1,14 @@
 package com.msa.service;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.msa.mapper.reader.AuthReaderMapper;
-import com.msa.model.AuthInfo;
+import com.msa.model.Admin;
+import com.msa.model.AdminInfo;
+import com.msa.model.AdminMenu;
 import com.msa.util.CommonUtil;
 import com.msa.util.Sha512;
 
@@ -28,31 +32,29 @@ public class AuthService {
      * @param password
      * @return
      */
-    public AuthInfo selectAdminInfo(String id, String password) {
+    public AdminInfo selectAdminInfo(String id, String password) {
         log.info("AuthService.selectAdminInfo: {}", id);
-        //CommonUtil.checkParam();
+        CommonUtil.checkParam(id, password);
 
-        // 필수값 체크
-        if (StringUtils.isBlank(id)) {
-            return null;
-        }
-
-        if (StringUtils.isBlank(password)) {
-            return null;
-        }
-
-        AuthInfo adminInfo = this.authReaderMapper.selectAdminInfo(id);
-        if (adminInfo == null){
+        Admin admin = this.authReaderMapper.selectAdminInfo(id);
+        if (admin == null){
             return null;
         }
 
         String cryptPassword = Sha512.sha512(password, password);
-        if (!StringUtils.equals(cryptPassword, adminInfo.getAdminPw())) {
+        if (!StringUtils.equals(cryptPassword, admin.getAdminPw())) {
             return null;
         }
 
         // password 초기화
-        adminInfo.setAdminPw(null);
+        admin.setAdminPw(null);
+
+        // 접근 가능 메뉴 목록 조회
+        List<AdminMenu> adminMenuList = this.authReaderMapper.selectAdminMenuList(admin.getAdminSeq());
+
+        AdminInfo adminInfo = new AdminInfo();
+        adminInfo.setAdmin(admin);
+        adminInfo.setAdminMenuList(adminMenuList);
 
         return adminInfo;
     }

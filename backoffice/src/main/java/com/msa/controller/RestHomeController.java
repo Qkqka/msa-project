@@ -18,7 +18,7 @@ public class RestHomeController {
 //        mv.setViewName("index");
 //
 //        log.info("session.id", session.getId());
-//        log.info("session.authInfo", session.getAttribute("authInfo"));
+//        log.info("session.adminInfo", session.getAttribute("adminInfo"));
 //        return mv;
 //    }
 //

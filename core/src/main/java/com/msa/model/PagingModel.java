@@ -8,7 +8,7 @@ import lombok.Setter;
  * @author fnfnksb@gmail.com
  */
 @Getter @Setter
-public class PagingModel extends BaseModel {
+public class PagingModel extends CommonModel {
 
     /**
      * 

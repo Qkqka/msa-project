@@ -20,7 +20,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
 
         // 세션에 로그인 정보가 있다면 그대로 진행
-        if (session.getAttribute("authInfo") != null) {
+        if (session.getAttribute("adminInfo") != null) {
             return true;
 
         // 없으면 로그인 페이지로 이동

@@ -7,7 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.msa.resolver.AuthInfoArgumentResolver;
+import com.msa.resolver.AdminInfoArgumentResolver;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApiMvcConfig extends WebMvcConfigurationSupport {
 
-    private final AuthInfoArgumentResolver authInfoArgumentResolver;
+    private final AdminInfoArgumentResolver adminInfoArgumentResolver;
 //    private final CustomExceptionResolver customExceptionResolver;
 
 //    /**
@@ -29,7 +29,7 @@ public class ApiMvcConfig extends WebMvcConfigurationSupport {
 //    @Override
 //    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 //        super.addArgumentResolvers(argumentResolvers);
-//        argumentResolvers.add(authInfoArgumentResolver);
+//        argumentResolvers.add(adminInfoArgumentResolver);
 //    }
 
 //    /**

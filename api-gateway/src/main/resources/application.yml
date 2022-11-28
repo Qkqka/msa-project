@@ -108,14 +108,20 @@ logging:
 
 application:
   auth:
-    admin-except-url-list: /auth/login*, /auth/health_check*
+    admin-except-url-list: /auth/login*
   web:
     back: # 다 똑같이..? 아님 각각?
-      access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)
-      access-value: ENC(Or5+Gb82k5Ed/7NpF1b+72FKu8m4Zic4V61o1x5sik8=)
+      access-key: ENC(J1RdMkA9Lh/J32hNk8nqDFvl3Kgk7iXP)
+      access-value: ENC(Xqv3/YsPvQBCqnfgmE/ugPE4qV7/Z+cB)
   api:
     auth: 
-      access-key: ENC(dm3it4NbmUGStPxqI+1Cm2//G1iO14vX)
-      access-value: ENC(Or5+Gb82k5Ed/7NpF1b+72FKu8m4Zic4V61o1x5sik8=)
+      access-key: ENC(J1RdMkA9Lh/J32hNk8nqDFvl3Kgk7iXP)
+      access-value: ENC(Xqv3/YsPvQBCqnfgmE/ugPE4qV7/Z+cB)
+    system: 
+      access-key: ENC(J1RdMkA9Lh/J32hNk8nqDFvl3Kgk7iXP)
+      access-value: ENC(Xqv3/YsPvQBCqnfgmE/ugPE4qV7/Z+cB)
+    product: 
+      access-key: ENC(J1RdMkA9Lh/J32hNk8nqDFvl3Kgk7iXP)
+      access-value: ENC(Xqv3/YsPvQBCqnfgmE/ugPE4qV7/Z+cB)
 
 

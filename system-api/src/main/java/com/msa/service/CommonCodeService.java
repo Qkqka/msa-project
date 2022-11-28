@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -89,9 +88,8 @@ public class CommonCodeService {
 
         // 필수값 체크
         if (StringUtils.isBlank(commonCode.getCodeGrp()) || StringUtils.isBlank(commonCode.getCode()) || 
-                StringUtils.isBlank(commonCode.getCodeNm()) || StringUtils.isBlank(commonCode.getUseYn()) ||
-                StringUtils.isBlank(commonCode.getRegSeq()) || StringUtils.isBlank(commonCode.getModSeq())) {
-            throw new NullArgumentException("필수값을 확인해주세요.");
+                StringUtils.isBlank(commonCode.getCodeNm()) || StringUtils.isBlank(commonCode.getUseYn())) {
+            throw new NullPointerException("필수값을 확인해주세요.");
         }
 
         // 유효성 체크
@@ -119,8 +117,8 @@ public class CommonCodeService {
         }
 
         // 필수값 체크
-        if (StringUtils.isBlank(commonCode.getCodeGrp()) || StringUtils.isBlank(commonCode.getCode()) || StringUtils.isBlank(commonCode.getModSeq())) {
-            throw new NullArgumentException("필수값을 확인해주세요.");
+        if (StringUtils.isBlank(commonCode.getCodeGrp()) || StringUtils.isBlank(commonCode.getCode())) {
+            throw new NullPointerException("필수값을 확인해주세요.");
         }
 
         // 유효성 체크
