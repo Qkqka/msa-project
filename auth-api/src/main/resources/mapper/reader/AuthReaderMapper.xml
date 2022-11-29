@@ -8,19 +8,24 @@
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.10
      -->
-    <select id="selectAdminInfo" resultType="Admin">
+    <select id="selectAdminInfo" resultType="AdminInfo">
         /* AuthReaderMapper.selectAdminInfo */
         SELECT 
-            a.ADMIN_SEQ,
-            a.COMP_SEQ,
-            a.ADMIN_ID,
-            a.ADMIN_PW,
-            a.ADMIN_STAT_CD,
-            a.ADMIN_TYPE_CD,
-            group_concat(DISTINCT ag.ADMIN_GRP_ID) AS admin_grp_ids
+            a.admin_seq,
+            a.comp_seq,
+            a.admin_id,
+            a.admin_pw,
+            a.admin_stat_cd,
+            a.admin_type_cd,
+            a.last_login_dt,
+            a.pw_chg_dt,
+            a.reg_dt,
+            a.mod_dt,
+            a.reg_seq,
+            a.mod_seq,
+            group_concat(DISTINCT agm.ADMIN_GRP_ID) AS admin_grp_ids
         FROM `system`.admin a
         LEFT OUTER JOIN `system`.admin_grp_map agm ON agm.ADMIN_SEQ = a.ADMIN_SEQ 
-        LEFT OUTER JOIN `system`.admin_grp ag ON ag.ADMIN_GRP_ID = agm.ADMIN_GRP_ID 
         WHERE a.ADMIN_ID = #{id}
     </select>
 
@@ -51,6 +56,7 @@
         LEFT OUTER JOIN `system`.admin_grp_menu_map agmm ON agmm.admin_grp_id = ag.admin_grp_id
         LEFT OUTER JOIN `system`.admin_menu am ON am.admin_menu_seq = agmm.admin_menu_seq 
         WHERE a.admin_seq = #{adminSeq}
+        /*ORDER BY am.menu_path*/
     </select>
 
 </mapper>

@@ -3,8 +3,8 @@
 */
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.errorHandler = (...args) => {
-        console.log(args);
+        console.log("args =>>>>>> ", args);
 
-        console.log("global error handler");
+        console.log("!!! global error handler !!!");
     };
 });

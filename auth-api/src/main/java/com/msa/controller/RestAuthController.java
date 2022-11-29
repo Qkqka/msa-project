@@ -52,9 +52,8 @@ public class RestAuthController extends CommonController {
      * 개발패턴 일반화
      * 응답결과 통일
      * 
-     * @param request
-     * @param response
-     * @param loginInfo
+     * @param id
+     * @param password
      * @return
      */
     @GetMapping("/login")
@@ -77,9 +76,13 @@ public class RestAuthController extends CommonController {
         return new Result(userInfo);
     }
 
-    // 로그인 ㅅㅔ션 정보만 만료
+    /**
+     * 로그아웃
+     * @return
+     */
     @GetMapping("/logout")
     public Result logout() {
+        // 로그인 ㅅㅔ션 정보만 만료
         if (super.removeSession(this.applicationYAMLConfig.getSession().getKey())) {
             return new Result("not login");
         }

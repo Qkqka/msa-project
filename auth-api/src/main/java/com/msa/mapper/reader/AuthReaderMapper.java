@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.msa.annotation.ReaderMapper;
-import com.msa.model.Admin;
+import com.msa.model.AdminInfo;
 import com.msa.model.AdminMenu;
 
 /**
@@ -15,8 +15,8 @@ import com.msa.model.AdminMenu;
 @ReaderMapper
 public interface AuthReaderMapper {
 
-    Admin selectAdminInfo(@Param("id") String id);
+    AdminInfo selectAdminInfo(@Param("id") String id);
 
-    List<AdminMenu> selectAdminMenuList(long adminSeq);
+    List<AdminMenu> selectAdminMenuList(@Param("adminSeq") long adminSeq);
 
 }
