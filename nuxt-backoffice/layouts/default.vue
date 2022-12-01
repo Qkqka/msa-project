@@ -1,9 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-    <v-app>
+    <v-app id="inspire">
         <Navigation></Navigation>
         <Header></Header>
-        <!-- <NuxtPage></NuxtPage> -->
+        <v-main>
+            <slot></slot>
+        </v-main>
     </v-app>
 </template>
