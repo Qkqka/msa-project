@@ -14,14 +14,17 @@ const cruds = [
     ["Delete", "mdi-delete"],
 ];
 
-watch(open, (val) => {
-    console.log("group newVal: ", val);
-});
+// watch(open, (val) => {
+//     console.log("group newVal: ", val);
+// });
 // const open = computed((val, newVal) => {
 //     console.log(val);
 //     return ["system", "product"];
 // });
-console.log(open);
+// console.log(open);
+onMounted(() => {
+    console.log(window.__NUXT__);
+});
 </script>
 
 <template>

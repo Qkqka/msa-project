@@ -6,8 +6,8 @@ export global {}
  */
 interface Result {
     resultCode: number;
+    resultMsg?: string;
     resultData: object;
-    resultMsg: string;
 }
 
 /**

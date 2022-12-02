@@ -29,7 +29,7 @@ logging:
   level:
     root: INFO
     '[com.msa]': DEBUG
-#    '[com.netflix.discovery.DiscoveryClient]': ERROR
+    '[com.netflix.discovery.DiscoveryClient]': ERROR
 #     HikariCP Connection Pool 상태 확인
 #    '[com.zaxxer.hikari]': TRACE
 #    '[com.zaxxer.hikari.HikariConfig]': DEBUG

@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
+/**
+ * request/response body 한번만 꺼낼 수 있음( 그걸 처리하기 위함 )
+ * @author fnfnksb@gmail.com
+ */
+//@Component
 public class BodyFilter extends OncePerRequestFilter {
 
     @Override
