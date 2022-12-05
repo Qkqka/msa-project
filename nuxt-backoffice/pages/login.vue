@@ -14,9 +14,7 @@ const formData = ref({
 async function onSubmit() {
     if (!formData.value.form) return;
 
-    formData.value.loading = true;
-
-    console.log(formData.value.id, formData.value.password);
+    //console.log(formData.value.id, formData.value.password);
     const d = await useFetch("/auth/login", {
         method: "get",
         params: {
@@ -24,40 +22,32 @@ async function onSubmit() {
             password: formData.value.password,
         },
         server: false,
-        initialCache: false,
+        cache: "no-cache",
     });
-    console.log(d);
-    console.log(toRaw(formData));
+    if (d.pending.value) {
+        console.log(1);
+        formData.value.loading = true;
+    }
 
-    setTimeout(() => (formData.value.loading = false), 2000);
+    console.log(d);
+    const result = toRaw(d.data.value);
+    // if (!!result) {
+    //     if (result.data.resultCode !== 200) {
+    //         alert(result.data.resultMsg);
+    //     }
+    // }
+    console.log(result);
+    console.log(unref(d.data.value));
+
+    setTimeout(() => {
+        if (!d.pending.value) {
+            formData.value.loading = false;
+        }
+    }, 2000);
 }
 const required = (v: FieldElement) => {
     return !!v || "Field is required";
 };
-
-// function getStudentMoreInfo(studentId: number): common.CommonCode {
-//     return {
-//         adminSeq: 10,
-//         compSeq: 10,
-//         adminId: "admin",
-//         adminStatCd: "정상",
-//         adminTypeCd: "",
-//         lastLoginDt: "",
-//         pwChgDt: "",
-//         regDt: "",
-//         modDt: "",
-//         regSeq: 1,
-//         modSeq: 1,
-//         adminGrpIds: "",
-//         adminMenuList: [
-//             {
-//                 adminMenuSeq: 10,
-//                 url: "/",
-//             },
-//         ],
-//     };
-// }
-// console.log(getStudentMoreInfo(10));
 
 definePageMeta({
     layout: false,
@@ -73,7 +63,8 @@ definePageMeta({
                 :rules="[required]"
                 class="mb-2"
                 clearable
-                label="Email"
+                label="ID"
+                placeholder="Enter your ID"
             ></v-text-field>
 
             <v-text-field

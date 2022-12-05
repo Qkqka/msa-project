@@ -3,9 +3,13 @@ const drawer = useDrawer();
 // const group = ref(null);
 
 const open = ref([]);
+const codes = [
+    ["목록", "mdi-list-box-outline", "code/codeList"],
+    // ["Settings", "mdi-cog-outline"],
+];
 const admins = [
-    ["Management", "mdi-account-multiple-outline"],
-    ["Settings", "mdi-cog-outline"],
+    ["목록", "mdi-list-box-outline"],
+    // ["Settings", "mdi-cog-outline"],
 ];
 const cruds = [
     ["Create", "mdi-plus-outline"],
@@ -46,9 +50,30 @@ onMounted(() => {
                     <!-- prepend-icon="mdi-account-circle" -->
                 </template>
 
+                <v-list-group value="Code">
+                    <template v-slot:activator="{ props }">
+                        <v-list-item
+                            v-bind="props"
+                            title="공통코드"
+                        ></v-list-item>
+                    </template>
+
+                    <v-list-item
+                        v-for="([title, icon, link], i) in codes"
+                        :key="i"
+                        :title="title"
+                        :prepend-icon="icon"
+                        :value="title"
+                        :to="link"
+                    ></v-list-item>
+                </v-list-group>
+
                 <v-list-group value="Admin">
                     <template v-slot:activator="{ props }">
-                        <v-list-item v-bind="props" title="Admin"></v-list-item>
+                        <v-list-item
+                            v-bind="props"
+                            title="관리자"
+                        ></v-list-item>
                     </template>
 
                     <v-list-item
@@ -59,24 +84,8 @@ onMounted(() => {
                         :value="title"
                     ></v-list-item>
                 </v-list-group>
-
-                <v-list-group value="Actions">
-                    <template v-slot:activator="{ props }">
-                        <v-list-item
-                            v-bind="props"
-                            title="Actions"
-                        ></v-list-item>
-                    </template>
-
-                    <v-list-item
-                        v-for="([title, icon], i) in cruds"
-                        :key="i"
-                        :value="title"
-                        :title="title"
-                        :prepend-icon="icon"
-                    ></v-list-item>
-                </v-list-group>
             </v-list-group>
+
             <v-list-group value="product">
                 <template v-slot:activator="{ props }">
                     <v-list-item v-bind="props" title="상품관리"></v-list-item>

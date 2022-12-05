@@ -6,13 +6,6 @@ const test = testFoo();
 //     throw createError({ statusCode: 404, statusMessage: "Page Not Found" });
 // }
 
-const adminInfo = useState("adminInfo");
-console.log(adminInfo);
-if (!adminInfo.value) {
-    console.log(toRaw(adminInfo));
-    navigateTo("login");
-}
-
 // const { data: mountain } = useAsyncData(() => useFoo());
 </script>
 
