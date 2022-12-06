@@ -91,7 +91,7 @@ public class BackofficeAuthFilter extends AbstractGatewayFilterFactory<Backoffic
                 return wc.get()
                         .uri("check?api=" + api)
                         .headers(header -> {
-                            // 쿠키이관
+                            // 쿠키이관 ( 전체 안 옮기는 이유는 응답코드/redirect같은 )
                             if (!CollectionUtils.isEmpty(headers.get("Cookie"))) {
                                 header.addAll("Cookie", headers.get("Cookie"));
                             }

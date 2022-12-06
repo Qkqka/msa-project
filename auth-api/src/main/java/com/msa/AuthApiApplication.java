@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @ComponentScan(
-        basePackages = "com.msa", 
+        basePackages = "com.msa",  // common의 프로젝트를 읽기 위해 상위 폴더 ( 같은폴더 ) 까지 끌어올리기
         excludeFilters = @Filter(type = FilterType.REGEX, pattern = "com.msa.config.web.*")
 )
 @EnableAspectJAutoProxy

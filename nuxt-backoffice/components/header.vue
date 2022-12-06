@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
+import useDrawer from "~~/composables/commUtils";
 
 const drawer = useDrawer();
 const theme = useTheme();

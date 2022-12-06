@@ -1,10 +1,11 @@
 <script setup lang="ts">
-const adminInfo = useState("adminInfo");
+import { AdminInfo } from "~~/composables/type";
+
+const adminInfo = useAdmin() as AdminInfo;
 console.log(adminInfo);
-// if (!adminInfo.value) {
-//     console.log(toRaw(adminInfo));
-//     navigateTo("login");
-// }
+if (!adminInfo) {
+    navigateTo("login");
+}
 </script>
 
 <template>

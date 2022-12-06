@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,18 +13,18 @@ import com.msa.config.ApplicationYAMLConfig;
 import com.msa.exception.AdminAuthException;
 import com.msa.model.AdminInfo;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * AdminInfo Argument Resolver
  * 
  * @author fnfnksb@gmail.com
  */
-@Component
-@RequiredArgsConstructor
 public class AdminInfoArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final ApplicationYAMLConfig applicationYAMLConfig;
+    private ApplicationYAMLConfig applicationYAMLConfig;
+
+    public AdminInfoArgumentResolver(ApplicationYAMLConfig applicationYAMLConfig) {
+        this.applicationYAMLConfig = applicationYAMLConfig;
+    }
 
     /**
      * 호출되는 Controller 의 파라미터 값을 검사하는 콜백 함수
@@ -56,6 +55,7 @@ public class AdminInfoArgumentResolver implements HandlerMethodArgumentResolver 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession();
 
+        // 인증정보 체크 할지 말지에 대한 파라미터 추가 ( 인증 체크 안하는 기능도 있기 때문에 )
         AdminInfo adminInfo = (AdminInfo) session.getAttribute(this.applicationYAMLConfig.getSession().getKey());
         if (adminInfo == null) {
             throw new AdminAuthException(-1, "로그인해 주세요.");

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const drawer = useDrawer();
-// const group = ref(null);
+import useDrawer from "~~/composables/commUtils";
+import { AdminInfo, Result } from "~~/composables/type";
 
+// data
+const drawer = useDrawer();
+const adminInfo = useAdmin() as AdminInfo;
 const open = ref([]);
 const codes = [
     ["목록", "mdi-list-box-outline", "code/codeList"],
@@ -18,6 +21,23 @@ const cruds = [
     ["Delete", "mdi-delete"],
 ];
 
+// method
+async function logout() {
+    if (!adminInfo) {
+        navigateTo("/login");
+    }
+    const d = await useFetch<Result>("/auth/logout", {
+        method: "get",
+        server: false,
+        cache: "no-cache",
+    });
+
+    console.log(d);
+    useState("adminInfo", () => null);
+    //navigateTo("/login");
+    console.log(window.__NUXT__);
+}
+
 // watch(open, (val) => {
 //     console.log("group newVal: ", val);
 // });
@@ -26,15 +46,15 @@ const cruds = [
 //     return ["system", "product"];
 // });
 // console.log(open);
-onMounted(() => {
-    console.log(window.__NUXT__);
-});
+// onMounted(() => {
+//     console.log(window.__NUXT__);
+// });
 </script>
 
 <template>
     <v-navigation-drawer v-model="drawer" temporary>
         <v-list v-model="open">
-            <v-list-item>{{ open }}</v-list-item>
+            <v-list-item>안녕하세요. {{ adminInfo.adminId }} 님</v-list-item>
             <v-list-item
                 prepend-icon="mdi-home"
                 title="Home"
@@ -95,7 +115,9 @@ onMounted(() => {
 
         <template v-slot:append>
             <div class="pa-2">
-                <v-btn class="bg-deep-purple" block> Logout </v-btn>
+                <v-btn class="bg-deep-purple" @click="logout" block>
+                    Logout
+                </v-btn>
             </div>
         </template>
     </v-navigation-drawer>
