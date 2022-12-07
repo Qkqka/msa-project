@@ -10,7 +10,7 @@
      -->
     <!-- <select id="selectCodeList" parameterType="CommonCodeListEntity" resultType="CommonCodeEntity"> -->
     <select id="selectCodeList" parameterType="CommonCodeSearch" resultType="CommonCodeList">
-        /* CommonCodeReaderMapper.selectCodeList */
+        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCodeList */
         SELECT 
             c.code_grp,
             c.code,
@@ -39,7 +39,7 @@
       작성일: 2022.11.14
      -->
     <select id="selectCodeListCount" parameterType="CommonCodeSearch" resultType="Integer">
-        /* CommonCodeReaderMapper.selectCodeListCount */
+        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCodeListCount */
         SELECT 
             count(*)
         FROM `system`.code c
@@ -73,7 +73,7 @@
         작성일: 2022.11.17
     -->
     <select id="selectCode" resultType="Code">
-        /* CommonCodeReaderMapper.selectCode */
+        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCode */
         SELECT 
             c.code_grp,
             c.code,

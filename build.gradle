@@ -175,7 +175,7 @@ configure(subprojects.findAll{ it.name.endsWith('-api') }) {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
 
         // log4jdbc(sql 쿼리 로그) : https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1
-        implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+        //implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     }
 }
 

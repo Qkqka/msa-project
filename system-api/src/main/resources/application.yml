@@ -48,12 +48,12 @@ application:
     key: ENC(XPWx2KKuHOBPZRKDavuJVbTRQH38Wfj7)
   datasource:
     writer:
-      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy # MySQL 설정 : com.mysql.cj.jdbc.Driver
-      jdbc-url: ENC(3bME8rV054N+/41JAojejcIgEvYCMpVwXL/dscV1Hk3s7YrPdYsO0oezac95i0ybeW2y8DS4VcB5L9UY1pcWXMhI1KwjODNX4Qu1fATm5abXVVfG3VQTdyE4jaxIANw2M8IKYVgt1RjB0u2XztUAbignUubY8bzQIj8rd6fBEPxkKF9PWzv5bLrP0hrXXJ3fizXUz338XfM=)
+      driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 설정 : com.mysql.cj.jdbc.Driver | JDBC LOG 설정 : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: ENC(5FyapLWk4uuCj5zASq0NwmuoyRXp6mXKdwt9PF9QmMM2S6U7sWHQ4BvpFIsXBgl9E5ejvRTJxCcWWOARFi+Zj2iqM9pTGvZpxeALi63VaRh9g3pUS6nodaV+jwVcU9e+yJEyuoVZjOJaMoRoWvi0tnMxWQab5PBAn9w79USi/S2GxgGbmskk1auZVyXCTSjF)
       username: ENC(ADWEeKTTBrsTlTVtpH0O/w==)           # DB username
       password: ENC(VEnvoPsejgnDMlEIew2N7biHYqjQiiPa)   # DB password
     reader:
-      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy # MySQL 설정 : com.mysql.cj.jdbc.Driver
-      jdbc-url: ENC(3bME8rV054N+/41JAojejcIgEvYCMpVwXL/dscV1Hk3s7YrPdYsO0oezac95i0ybeW2y8DS4VcB5L9UY1pcWXMhI1KwjODNX4Qu1fATm5abXVVfG3VQTdyE4jaxIANw2M8IKYVgt1RjB0u2XztUAbignUubY8bzQIj8rd6fBEPxkKF9PWzv5bLrP0hrXXJ3fizXUz338XfM=)
+      driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 설정 : com.mysql.cj.jdbc.Driver | JDBC LOG 설정 : net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: ENC(5FyapLWk4uuCj5zASq0NwmuoyRXp6mXKdwt9PF9QmMM2S6U7sWHQ4BvpFIsXBgl9E5ejvRTJxCcWWOARFi+Zj2iqM9pTGvZpxeALi63VaRh9g3pUS6nodaV+jwVcU9e+yJEyuoVZjOJaMoRoWvi0tnMxWQab5PBAn9w79USi/S2GxgGbmskk1auZVyXCTSjF)
       username: ENC(ADWEeKTTBrsTlTVtpH0O/w==)           # DB username
       password: ENC(VEnvoPsejgnDMlEIew2N7biHYqjQiiPa)   # DB password

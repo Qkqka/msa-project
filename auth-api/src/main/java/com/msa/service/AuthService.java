@@ -7,7 +7,7 @@ import com.msa.exception.CustomException;
 import com.msa.mapper.reader.AuthReaderMapper;
 import com.msa.model.AdminInfo;
 import com.msa.util.CommonUtil;
-import com.msa.util.Sha512;
+import com.msa.util.HashUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class AuthService {
             throw new CustomException(121212, "관리자 정보가 없습니다.");
         }
 
-        String cryptPassword = Sha512.sha512(password, password);
+        String cryptPassword = HashUtil.sha512(password, password);
         if (!StringUtils.equals(cryptPassword, adminInfo.getAdminPw())) {
             throw new CustomException(121213, "관리자 정보를 다시 확인해주세요.");
         }

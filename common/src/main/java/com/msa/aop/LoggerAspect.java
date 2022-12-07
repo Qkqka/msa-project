@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LoggerAspect {
 
-    @Around("execution(public * com..controller.*(..))") // com.msa.controller 패키지 밑에 있는 모든 메소드
+    @Around("execution(public * com..controller.*.*(..))") // com.msa.controller 패키지 밑에 있는 모든 메소드
     public Object beforeLog(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Before method called. {}", joinPoint.getSignature().toString());
         Object result = joinPoint.proceed();

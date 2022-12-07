@@ -24,7 +24,7 @@ public class CommonUtil {
      * @return
      */
     public static void checkParam(Object... params) {
-        log.info("params: {}", params);
+        //log.info("params: {}", params);
         if (params == null || params.length == 0) {
             throw new NullPointerException("필수값이 존재하지 않습니다.");
         }

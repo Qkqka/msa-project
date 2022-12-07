@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.msa.mapper.writer.ApiLogWriterMapper">
+
+    <!--
+      기능: auth api log 등록
+      작성자: fnfnksb@gmail.com
+      작성일: 2022.12.07
+     -->
+    <insert id="insertApiLog" parameterType="ApiLogEvent">
+        /* com.msa.mapper.writer.ApiLogWriterMapper.insertApiLog */
+        INSERT INTO api_log (
+            request_method,
+            request_uri,
+            success_yn,
+            exec_time,
+            request_param,
+            request_body,
+            response_result,
+            err_msg,
+            err_log,
+            client_ip,
+            user_agent,
+            reg_dt
+        ) VALUES (
+            #{reqeustMethod},
+            #{requestUri},
+            #{successYn},
+            #{execTime},
+            #{requestParam},
+            #{requestBody},
+            #{responseResult},
+            #{errMsg},
+            #{errLog},
+            #{clientIp},
+            #{userAgent},
+            now()
+        )
+    </insert>
+</mapper>

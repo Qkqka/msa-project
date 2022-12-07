@@ -58,7 +58,7 @@ public class RestAuthController extends CommonController {
      */
     @GetMapping("/login")
     public Result login(@RequestParam("id") String id, @RequestParam("password") String password) {
-        log.info("RestAuthController.login id: {}", id);
+        log.info("RestAuthController.login.id: {}", id);
 
         // 필수값 체크
         CommonUtil.checkParam(id, password);
@@ -107,10 +107,10 @@ public class RestAuthController extends CommonController {
             return new Result(-1, "로그인해주세요.");
         }
 
-        // 권한 체크 api
-        if (!adminInfo.getAdminMenuList().stream().anyMatch(adminMenu -> StringUtils.equals(adminMenu.getMenuUrl(), api))) {
-            return new Result(-2, "해당 메뉴에 접근 권한이 없습니다.");
-        }
+//        // 권한 체크 api
+//        if (!adminInfo.getAdminMenuList().stream().anyMatch(adminMenu -> StringUtils.equals(adminMenu.getMenuUrl(), api))) {
+//            return new Result(-2, "해당 메뉴에 접근 권한이 없습니다.");
+//        }
 
         return new Result();
     }

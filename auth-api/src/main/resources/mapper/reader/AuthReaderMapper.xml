@@ -9,7 +9,7 @@
       작성일: 2022.11.10
      -->
     <select id="selectAdminInfo" resultType="AdminInfo">
-        /* AuthReaderMapper.selectAdminInfo */
+        /* com.msa.mapper.reader.AuthReaderMapper.selectAdminInfo */
         SELECT 
             a.admin_seq,
             a.comp_seq,
@@ -35,7 +35,7 @@
       작성일: 2022.11.28
      -->
     <select id="selectAdminMenuList" resultType="AdminMenu">
-        /* AuthReaderMapper.selectAdminMenuList */
+        /* com.msa.mapper.reader.AuthReaderMapper.selectAdminMenuList */
         SELECT 
             am.admin_menu_seq,
             am.prnt_admin_menu_seq,

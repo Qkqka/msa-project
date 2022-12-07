@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.msa.config.ApplicationYAMLConfig;
 import com.msa.resolver.AdminInfoArgumentResolver;
@@ -20,25 +20,36 @@ import lombok.RequiredArgsConstructor;
  */
 @Configuration
 @RequiredArgsConstructor
-public class ApiMvcConfig extends WebMvcConfigurationSupport {
+public class ApiMvcConfig implements WebMvcConfigurer {
 
     private final ApplicationYAMLConfig applicationYAMLConfig;
 
     /**
-     * Argument Resolver 등록
+     * AdminInfoArgumentResolver 등록
      */
     @Override
-    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        super.addArgumentResolvers(argumentResolvers);
-        argumentResolvers.add(new AdminInfoArgumentResolver(this.applicationYAMLConfig));
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+        resolvers.add(new AdminInfoArgumentResolver(this.applicationYAMLConfig));
     }
 
     /**
-     * Custom Exception Resolver 등록
+     * CustomExceptionResolver 등록
      */
     @Override
-    protected void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        super.extendHandlerExceptionResolvers(exceptionResolvers);
-        exceptionResolvers.add(new CustomExceptionResolver());
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        WebMvcConfigurer.super.configureHandlerExceptionResolvers(resolvers);
+        resolvers.add(new CustomExceptionResolver());
     }
+
+//    @Bean
+//    public FilterRegistrationBean<Filter> bodyFilter() {
+//        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+//        filterRegistrationBean.setFilter(new BodyFilter());
+//        filterRegistrationBean.setOrder(1);
+//        filterRegistrationBean.addUrlPatterns("/*");
+//
+//        return filterRegistrationBean;
+//    }
+
 }
