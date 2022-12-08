@@ -40,8 +40,7 @@ async function onSubmit() {
 
     const resultData = d.data.value?.resultData;
     if (resultData !== null && resultData?.data !== null) {
-        const adminInfo = resultData?.data as AdminInfo;
-        useState("adminInfo", () => adminInfo);
+        useState<AdminInfo>("adminInfo", () => resultData?.data);
         navigateTo("/");
     }
 
