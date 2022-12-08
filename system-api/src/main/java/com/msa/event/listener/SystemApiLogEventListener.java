@@ -15,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @EnableAsync
 @RequiredArgsConstructor
-public class AuthApiLogEventListener {
+public class SystemApiLogEventListener {
 
     private final ApiLogService apiLogService;
 
     @Async
     @EventListener
     public void insertApiLog(ApiLogEvent apiLogEvent) {
-        log.info("AuthApiLogEventListener.insertApiLog.apiLogEvent : {}", apiLogEvent);
+        log.info("SystemApiLogEventListener.insertApiLog.apiLogEvent : {}", apiLogEvent);
         this.apiLogService.insertApiLog(apiLogEvent);
     }
 }

@@ -4,15 +4,15 @@ import com.msa.annotation.WriterMapper;
 import com.msa.model.Code;
 
 /**
- * 공통코드 writer mapper
+ * 코드 writer mapper
  * 
  * @author fnfnksb@gmail.com
  */
 @WriterMapper
-public interface CommonCodeWriterMapper {
+public interface CodeWriterMapper {
 
-    int insertCommonCode(Code commonCode);
+    int insertCode(Code code);
 
-    int updateCommonCode(Code commonCode);
+    int updateCode(Code code);
 
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.msa.mapper.writer.ApiLogWriterMapper">
 
     <!--
-      기능: auth api log 등록
+      기능: system api log 등록
       작성자: fnfnksb@gmail.com
       작성일: 2022.12.07
      -->

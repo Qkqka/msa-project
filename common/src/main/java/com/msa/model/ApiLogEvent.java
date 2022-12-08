@@ -1,5 +1,7 @@
 package com.msa.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -84,16 +86,16 @@ public class ApiLogEvent {
     public ApiLogEvent(String requestMethod, String requestUri, String successYn, long execTime, String requestParam,
             String requestBody, String responseResult, String errMsg, String errLog, String clientIp,
             String userAgent) {
-        this.requestMethod = requestMethod;
-        this.requestUri = requestUri;
-        this.successYn = successYn;
+        this.requestMethod = StringUtils.defaultIfBlank(requestMethod, null);
+        this.requestUri = StringUtils.defaultIfBlank(requestUri, null);
+        this.successYn = StringUtils.defaultIfBlank(successYn, null);
         this.execTime = execTime;
-        this.requestParam = requestParam;
-        this.requestBody = requestBody;
-        this.responseResult = responseResult;
-        this.errMsg = errMsg;
-        this.errLog = errLog;
-        this.clientIp = clientIp;
-        this.userAgent = userAgent;
+        this.requestParam = StringUtils.defaultIfBlank(requestParam, null);
+        this.requestBody = StringUtils.defaultIfBlank(requestBody, null);
+        this.responseResult = StringUtils.defaultIfBlank(responseResult, null);
+        this.errMsg = StringUtils.defaultIfBlank(errMsg, null);
+        this.errLog = StringUtils.defaultIfBlank(errLog, null);
+        this.clientIp = StringUtils.defaultIfBlank(clientIp, null);
+        this.userAgent = StringUtils.defaultIfBlank(userAgent, null);
     }
 }

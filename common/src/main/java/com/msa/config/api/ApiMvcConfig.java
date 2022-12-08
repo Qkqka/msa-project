@@ -2,12 +2,15 @@ package com.msa.config.api;
 
 import java.util.List;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.msa.config.ApplicationYAMLConfig;
+import com.msa.filter.BodyFilter;
 import com.msa.resolver.AdminInfoArgumentResolver;
 import com.msa.resolver.CustomExceptionResolver;
 
@@ -42,14 +45,14 @@ public class ApiMvcConfig implements WebMvcConfigurer {
         resolvers.add(new CustomExceptionResolver());
     }
 
-//    @Bean
-//    public FilterRegistrationBean<Filter> bodyFilter() {
-//        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-//        filterRegistrationBean.setFilter(new BodyFilter());
-//        filterRegistrationBean.setOrder(1);
-//        filterRegistrationBean.addUrlPatterns("/*");
-//
-//        return filterRegistrationBean;
-//    }
+    @Bean
+    public FilterRegistrationBean<BodyFilter> bodyFilter() {
+        FilterRegistrationBean<BodyFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new BodyFilter());
+        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.addUrlPatterns("/*");
+
+        return filterRegistrationBean;
+    }
 
 }

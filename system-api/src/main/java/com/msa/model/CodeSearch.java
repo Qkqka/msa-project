@@ -4,12 +4,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 공통코드 검색 도메인
+ * 코드 검색 도메인
  * @author fnfnksb@gmail.com
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class CommonCodeSearch extends PagingModel {
+public class CodeSearch extends PagingModel {
     /**
      * 
      */

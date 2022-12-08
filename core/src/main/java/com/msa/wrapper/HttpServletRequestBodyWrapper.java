@@ -68,7 +68,7 @@ public class HttpServletRequestBodyWrapper extends HttpServletRequestWrapper {
     @Override
     public String[] getParameterValues(String name) {
         String[] result = null;
-        String[] values = params.get(name);
+        String[] values = this.params.get(name);
 
         if(values != null) {
             result = new String[values.length];
@@ -86,12 +86,12 @@ public class HttpServletRequestBodyWrapper extends HttpServletRequestWrapper {
 
     @Override
     public Map<String, String[]> getParameterMap() {
-        return Collections.unmodifiableMap(params);
+        return Collections.unmodifiableMap(this.params);
     }
 
     @Override
     public Enumeration<String> getParameterNames() {
-        return Collections.enumeration(params.keySet());
+        return Collections.enumeration(this.params.keySet());
     }
 
     /**

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.msa.mapper.reader.CommonCodeReaderMapper">
+<mapper namespace="com.msa.mapper.reader.CodeReaderMapper">
 
     <!--
-      기능: 공통코드 목록 조회
+      기능: 코드 목록 조회
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.11
      -->
     <!-- <select id="selectCodeList" parameterType="CommonCodeListEntity" resultType="CommonCodeEntity"> -->
-    <select id="selectCodeList" parameterType="CommonCodeSearch" resultType="CommonCodeList">
-        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCodeList */
+    <select id="selectCodeList" parameterType="CodeSearch" resultType="CodeList">
+        /* com.msa.mapper.reader.CodeReaderMapper.selectCodeList */
         SELECT 
             c.code_grp,
             c.code,
@@ -34,12 +34,12 @@
     </select>
 
     <!--
-      기능: 공통코드 목록 개수 조회
+      기능: 코드 목록 개수 조회
       작성자: fnfnksb@gmail.com
       작성일: 2022.11.14
      -->
-    <select id="selectCodeListCount" parameterType="CommonCodeSearch" resultType="Integer">
-        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCodeListCount */
+    <select id="selectCodeListCount" parameterType="CodeSearch" resultType="Integer">
+        /* com.msa.mapper.reader.CodeReaderMapper.selectCodeListCount */
         SELECT 
             count(*)
         FROM `system`.code c
@@ -47,7 +47,7 @@
     </select>
 
     <!-- 
-        기능: 공통코드 목록 검색조건
+        기능: 코드 목록 검색조건
         작성자: fnfnksb@gmail.com
         작성일: 2022.11.17
     -->
@@ -68,12 +68,12 @@
     </sql>
 
     <!-- 
-        기능: 공통코드 정보 조회
+        기능: 코드 정보 조회
         작성자: fnfnksb@gmail.com
         작성일: 2022.11.17
     -->
     <select id="selectCode" resultType="Code">
-        /* com.msa.mapper.reader.CommonCodeReaderMapper.selectCode */
+        /* com.msa.mapper.reader.CodeReaderMapper.selectCode */
         SELECT 
             c.code_grp,
             c.code,

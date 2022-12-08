@@ -6,20 +6,20 @@ import org.apache.ibatis.annotations.Param;
 
 import com.msa.annotation.ReaderMapper;
 import com.msa.model.Code;
-import com.msa.model.CommonCodeList;
-import com.msa.model.CommonCodeSearch;
+import com.msa.model.CodeList;
+import com.msa.model.CodeSearch;
 
 /**
- * 공통코드 reader mapper
+ * 코드 reader mapper
  * 
  * @author fnfnksb@gmail.com
  */
 @ReaderMapper
-public interface CommonCodeReaderMapper {
+public interface CodeReaderMapper {
 
-    List<CommonCodeList> selectCodeList(CommonCodeSearch param);
+    List<CodeList> selectCodeList(CodeSearch param);
 
-    int selectCodeListCount(CommonCodeSearch param);
+    int selectCodeListCount(CodeSearch param);
 
     Code selectCode(@Param("codeGrp") String codeGrp, @Param("code") String code);
 

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 공통코드 도메인
+ * 코드 도메인
  * @author fnfnksb@gmail.com
  */
 @Data
