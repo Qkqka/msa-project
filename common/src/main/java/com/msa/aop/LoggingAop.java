@@ -43,7 +43,7 @@ public class LoggingAop {
         String requestMethod = request.getMethod();
         String requestUri = request.getRequestURI();
         String successYn = "Y";
-        long execTime;
+        double execTime;
         String requestParam = null;
         String requestBody = null;
         String responseResult = null;
@@ -73,7 +73,7 @@ public class LoggingAop {
 
         } finally {
             sw.stop();
-            execTime = sw.getTotalTimeMillis();
+            execTime = sw.getTotalTimeSeconds();
             this.applicationContext.publishEvent(new ApiLogEvent(requestMethod, requestUri, successYn, execTime, requestParam, requestBody, responseResult, errMsg, errLog, clientIp, userAgent));
         }
 

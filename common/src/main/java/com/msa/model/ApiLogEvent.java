@@ -41,7 +41,7 @@ public class ApiLogEvent {
     /**
      * 실행시간
      */
-    private long execTime;
+    private double execTime;
 
     /**
      * 요청 파라미터
@@ -83,7 +83,7 @@ public class ApiLogEvent {
      */
     private String regDt;
 
-    public ApiLogEvent(String requestMethod, String requestUri, String successYn, long execTime, String requestParam,
+    public ApiLogEvent(String requestMethod, String requestUri, String successYn, double execTime, String requestParam,
             String requestBody, String responseResult, String errMsg, String errLog, String clientIp,
             String userAgent) {
         this.requestMethod = StringUtils.defaultIfBlank(requestMethod, null);
